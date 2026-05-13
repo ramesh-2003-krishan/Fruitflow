@@ -42,7 +42,7 @@ export function loginUser(req,res){
                     role: user.role,
                     image: user.img
                 },
-                 "secretKey",
+                 "ram123",
             )
             res.json({ message: "Login successful",
                 token: token
