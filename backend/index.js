@@ -1,10 +1,7 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
-import Student from './models/student.js';
 import User from './models/user.js';
-import Product from './models/product.js';
-import studentRouter from './routes/studentRoute.js';
 import productRouter from './routes/productRoute.js';
 import userRouter from './routes/userRoute.js';
 import jwt from "jsonwebtoken";
@@ -54,7 +51,7 @@ mongoose.connect("mongodb://admin:1234@ac-x9fmtkt-shard-00-00.x921pmo.mongodb.ne
 
 
 
-app.use("/students", studentRouter);
+
 app.use("/products", productRouter);
 app.use("/users", userRouter);
 
