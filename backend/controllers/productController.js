@@ -1,4 +1,5 @@
 import Product from "../models/product.js";
+import { isAdmin } from "./userController.js";
 
 export function getProducts(req, res) {
     Product.find().then(
@@ -10,19 +11,13 @@ export function getProducts(req, res) {
 
 export function saveProduct(req,res){
     
-    console.log(req.user);
-    if (req.user == null){
-        res.status(403).json({
-            "message" : "Unauthorized"
-        })
-        return;
-    }
-    if(req.user.role != "admin"){
-        res.status(403).json({
-            "message" : "Unauthorized"
-        })
-        return;
-    }
+        if(isAdmin(req)){
+            res.status(403).json({
+                "message" : "only admin can create products"
+            });
+            return;
+        }
+        
         const product = new Product(
             {
                 name: req.body.name,
