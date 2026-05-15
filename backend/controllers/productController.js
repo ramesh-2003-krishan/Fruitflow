@@ -1,12 +1,22 @@
 import Product from "../models/product.js";
 import { isAdmin } from "./userController.js";
 
-export function getProducts(req, res) {
-    Product.find().then(
-        (data) => {
-            res.json(data);
+export async function getProducts(req, res) {
+    try{
+        if(isAdmin(req)){
+            const products = await Product.find();
+            res.json(products);
+        }else{
+            const products = await Product.find({isAvalaible: true});
+            res.json(products);
         }
-    )
+    }catch(err){
+        res.json({
+            message: "Error fetching products",
+            error: err
+        })
+    
+}
 };
 
 export function saveProduct(req,res){
@@ -17,15 +27,9 @@ export function saveProduct(req,res){
             });
             return;
         }
-        
+
         const product = new Product(
-            {
-                name: req.body.name,
-                taste: req.body.taste,
-                price: req.body.price,
-                stock: req.body.stock,
-                vendorid: req.body.vendorid
-            }
+            req.body
         );
         product.save().then(()=> {
                 res.json({ message: "Product saved successfully" });
@@ -33,3 +37,23 @@ export function saveProduct(req,res){
                 res.json({ message: "Error saving product", error: err });
             }
         )};
+
+export async function deleteProduct(req,res){
+    if(!isAdmin(req)){
+        res.status(403).json({
+            "message" : "only admin can delete products"
+        });
+        return;
+    }
+    try{
+        await Product.deleteOne({productID: req.params.productID});
+        res.json({
+            message: "Product deleted successfully"
+        });
+    }catch(err){
+        res.status(500).json({
+            message: "Error deleting product",
+            error: err
+        });
+    }
+}        
