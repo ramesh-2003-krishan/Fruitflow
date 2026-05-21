@@ -56,4 +56,31 @@ export async function deleteProduct(req,res){
             error: err
         });
     }
-}        
+}   
+
+export async function updateProduct(req, res){
+    if(!isAdmin(req)){
+        res.status(403).json({
+            "message" : "only admin can update products"
+        })
+        return;
+    }
+
+    const productID = req.params.productID;
+    const updatingData = req.body;
+
+    try{
+        await Product.updateOne(
+            {productID: productID},
+            updatingData
+        )
+        res.json({
+            message: "Product updated successfully"
+        });
+    }catch(err){
+        res.status(500).json({
+            message: "Error updating product",
+            error: err
+        });
+    }
+}
