@@ -2,9 +2,11 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
 import User from './models/user.js';
+import order from './models/order.js';
 import productRouter from './routes/productRoute.js';
 import userRouter from './routes/userRoute.js';
 import jwt from "jsonwebtoken";
+import orderRouter from './routes/orderRoute.js';
 
 
 const app = express();
@@ -54,6 +56,7 @@ mongoose.connect("mongodb://admin:1234@ac-x9fmtkt-shard-00-00.x921pmo.mongodb.ne
 
 app.use("/products", productRouter);
 app.use("/users", userRouter);
+app.use("/orders", orderRouter);
 
 
 

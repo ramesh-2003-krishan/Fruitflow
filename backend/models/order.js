@@ -41,13 +41,19 @@ const orderSchema = new mongoose.Schema(
                     {
                         type: String
                     },
-                ]
-            }
-        ],
-        quantity:{
-            type: Number,
+                ],
+                quantity:{
+                        type: Number,
+                        required: true
+                }
+          }
+       ],
+        date:{
+            type: Date,
             required: true
         }
+        
+        
 
     }
    
