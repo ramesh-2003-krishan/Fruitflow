@@ -84,3 +84,36 @@ export async function updateProduct(req, res){
         });
     }
 }
+
+export async function getProductByID(req, res){
+    const productID = req.params.productID;
+    try{
+        const product = await Product.findOne({
+            productID: productID
+
+        })
+        if(productID == null){
+            res.status(404).json({
+                message: "Product not found"
+            });
+            return;
+        }
+        if(Product.isAvalaible){
+            res.json(product);
+        }else{
+            if(!isAdmin(req)){
+                res.status(403).json({
+                    message: "Only admin can access this product"
+                });
+                return;
+            }else{
+                res.json(product);
+            }
+     }
+    }catch(err){
+        res.status(500).json({
+            message: "Error fetching product",
+            error: err
+        });
+    }
+}
