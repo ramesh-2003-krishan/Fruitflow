@@ -4,7 +4,6 @@
 
 ![Status](https://img.shields.io/badge/status-in%20progress-yellow)
 ![Stack](https://img.shields.io/badge/stack-MERN-blue)
-![Architecture](https://img.shields.io/badge/architecture-microservices-green)
 ![License](https://img.shields.io/badge/license-MIT-lightgrey)
 
 ---
