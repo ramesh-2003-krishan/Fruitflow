@@ -52,6 +52,7 @@ export function loginUser(req,res){
         if (isPasswordValid) {
             const token = jwt.sign(
                 { 
+                    id: user._id,
                     userName: user.name,
                     email: user.email,
                     role: user.role,

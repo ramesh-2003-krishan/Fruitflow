@@ -60,7 +60,7 @@ export async function createOrder(req, res) {
             address: orderInfo.address,
             status: "pending",
             products: products,
-            date: new Date()
+            date: new Date
         });
         const createdOrder = await newOrder.save();
         res.json({
