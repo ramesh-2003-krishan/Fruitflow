@@ -82,3 +82,35 @@ export function isAdmin(req){
     }
     return true;
 }
+
+
+export async function searchUser(req, res){
+    if(!isAdmin(req)){
+        res.status(403).json({
+            "message" : "only admin can search users"
+        });
+        return;
+    }
+    
+    try{
+       const{name, email, role} = req.query;
+       const query = {};
+       if(name){
+        query.name = { $regex: name, $options: "i" };
+       }
+       if(email){
+        query.email = { $regex: email, $options: "i" };
+       }
+       if(role){
+        query.role = role;
+       }
+       const users = await User.find(query).select("-password");
+       res.status(200).json(users);
+    }catch(err){
+        res.status(500).json({
+            "message" : "an error occurred while searching for users",
+            "error": err
+        });
+    }
+}
+
