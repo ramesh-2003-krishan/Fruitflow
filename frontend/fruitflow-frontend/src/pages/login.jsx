@@ -1,14 +1,40 @@
 import { useState } from "react"
+import axios from "axios"
 
 export default function Login(){
 
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
 
-    function handleLogin(){
-        console.log(email)
-        console.log(password)
+    async function handleLogin(e){
+     e.preventDefault();
+
+    if (!email || !password) {
+        alert("Please enter email and password");
+        return;
     }
+
+    try{
+        const response = await axios.post("http://localhost:3000/users/login", {
+            email: email,
+            password: password
+        },{
+            withCredentials: true
+        });
+        
+        
+        localStorage.setItem("token", response.data.token);
+        
+       
+        window.location.href = "/";
+        
+        console.log(response);
+    }catch(error){
+       
+        alert(error.response?.data?.message || "Login failed");
+        console.error("Login error:", error);
+    }
+}
 
     return (
         <div className="w-full h-screen bg-[url('/login.jpg')] bg-cover bg-center bg-no-repeat flex justify-center items-center">
@@ -88,7 +114,7 @@ export default function Login(){
 
                    
                     <button
-                        type="submit"
+                        type="button"
                         className="bg-blue-600 hover:bg-blue-700 transition-all duration-300 text-white py-3 rounded-lg font-semibold mt-2"
                         onClick={handleLogin}
                     >
