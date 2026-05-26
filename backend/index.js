@@ -1,6 +1,8 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
+import { applySecurity } from './config/security.js';
+import dotenv from 'dotenv';
 import User from './models/user.js';
 import order from './models/order.js';
 import productRouter from './routes/productRoute.js';
@@ -11,9 +13,14 @@ import reviewRouter from './routes/reviewRoute.js';
 import paymentRouter from './routes/paymentRoute.js';
 
 
+dotenv.config();
+
 const app = express();
 
+applySecurity(app);
+
 app.use(bodyParser.json());
+
 
 app.use((req, res, next) => {
 
