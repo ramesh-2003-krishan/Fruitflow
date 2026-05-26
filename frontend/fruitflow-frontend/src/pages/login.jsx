@@ -1,4 +1,15 @@
+import { useState } from "react"
+
 export default function Login(){
+
+    const [email, setEmail] = useState("")
+    const [password, setPassword] = useState("")
+
+    function handleLogin(){
+        console.log(email)
+        console.log(password)
+    }
+
     return (
         <div className="w-full h-screen bg-[url('/login.jpg')] bg-cover bg-center bg-no-repeat flex justify-center items-center">
 
@@ -32,6 +43,12 @@ export default function Login(){
                             type="email"
                             placeholder="Enter your email"
                             className="p-3 rounded-lg bg-white/20 text-white placeholder-gray-300 outline-none border border-white/20 focus:border-blue-400"
+                            onChange={
+                                (e) =>{
+                                    setEmail(e.target.value)
+                                }
+                            }
+                            value={email}
                         />
                     </div>
 
@@ -45,6 +62,12 @@ export default function Login(){
                             type="password"
                             placeholder="Enter your password"
                             className="p-3 rounded-lg bg-white/20 text-white placeholder-gray-300 outline-none border border-white/20 focus:border-blue-400"
+                            onChange={
+                                (e) =>{
+                                    setPassword(e.target.value)
+                                }
+                            }
+                            value={password}
                         />
                     </div>
 
@@ -67,6 +90,7 @@ export default function Login(){
                     <button
                         type="submit"
                         className="bg-blue-600 hover:bg-blue-700 transition-all duration-300 text-white py-3 rounded-lg font-semibold mt-2"
+                        onClick={handleLogin}
                     >
                         Login
                     </button>
