@@ -3,7 +3,7 @@ import { Link, Route, Routes } from "react-router-dom";
 export default function Admin(){
     return(
         <div className="h-screen w-screen flex">
-            <div className="h-full w-[300px] bg-yellow-500 flex flex-col">
+            <div className="h-full w-75 bg-yellow-500 flex flex-col">
                 <Link to="/Admin/Products">Products</Link>
                 <Link to="/Admin/Orders">Orders</Link>
                 <Link to="/Admin/Users">Users</Link>
