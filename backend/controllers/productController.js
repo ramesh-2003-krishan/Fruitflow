@@ -117,3 +117,20 @@ export async function getProductByID(req, res){
         });
     }
 }
+
+export async function searchProducts(req, res){
+    try{
+        const { name} = req.query;
+        const query = {};
+        if(name){
+            query.name = { $regex: name, $options: "i" };
+        }
+        const products = await Product.find(query);
+        res.status(200).json(products);
+    }catch(err){
+        res.status(500).json({
+            message: "Error searching products",
+            error: err
+        });
+    }
+}
