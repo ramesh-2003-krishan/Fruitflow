@@ -1,5 +1,6 @@
 import { useState } from "react"
 import axios from "axios"
+import toast from "react-hot-toast";
 
 export default function Login(){
 
@@ -32,7 +33,7 @@ export default function Login(){
     }catch(error){
        
         alert(error.response?.data?.message || "Login failed");
-        console.error("Login error:", error);
+        toast.error("Login error:", error);
     }
 }
 

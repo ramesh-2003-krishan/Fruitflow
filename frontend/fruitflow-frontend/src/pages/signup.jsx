@@ -32,6 +32,7 @@ export default function Signup() {
             console.log(response.data);
 
             alert("Account created successfully");
+            window.location.href='/login';
 
         } catch (e) {
 
@@ -44,15 +45,57 @@ export default function Signup() {
 
     return (
 
-        <div className="w-full h-screen bg-[url('/login.jpg')] bg-cover bg-center bg-no-repeat flex justify-center items-center">
+        <div className="w-full h-screen bg-[url('/login.jpg')] bg-cover bg-center bg-no-repeat flex justify-center items-center gap-10 px-5">
 
            
             <div className="absolute inset-0 bg-black/50"></div>
 
             
-            <div className="relative z-10 w-[90%] max-w-md bg-white/10 backdrop-blur-lg p-8 rounded-2xl shadow-2xl border border-white/20">
+            <div className="relative z-10 w-[500px] h-[650px] bg-white/10 backdrop-blur-lg p-8 rounded-2xl shadow-2xl border border-white/20 flex flex-col justify-center items-center text-center">
 
                 
+                <img
+                    src="/logo.png"
+                    alt="logo"
+                    className="w-32 h-32 object-contain mb-6"
+                />
+
+                
+                <h1 className="text-5xl font-bold text-white mb-4">
+                    FruitFlow
+                </h1>
+
+                
+                <p className="text-gray-200 text-lg leading-8">
+                    Welcome to FruitFlow — your smart online fruit and grocery
+                    shopping platform. Discover fresh products, secure ordering,
+                    fast delivery, and an amazing shopping experience with modern
+                    technology.
+                </p>
+
+                
+                <div className="mt-10 flex flex-col gap-4 text-white w-full">
+
+                    <div className="bg-white/10 px-5 py-3 rounded-xl">
+                        Fresh Organic Products
+                    </div>
+
+                    <div className="bg-white/10 px-5 py-3 rounded-xl">
+                        Fast & Secure Checkout
+                    </div>
+
+                    <div className="bg-white/10 px-5 py-3 rounded-xl">
+                        Real-Time Order Tracking
+                    </div>
+
+                </div>
+
+            </div>
+
+           
+            <div className="relative z-10 w-[500px] h-[650px] bg-white/10 backdrop-blur-lg p-8 rounded-2xl shadow-2xl border border-white/20 flex flex-col justify-center">
+
+               
                 <div className="text-center mb-8">
 
                     <h1 className="text-4xl font-bold text-white">
@@ -65,12 +108,13 @@ export default function Signup() {
 
                 </div>
 
+               
                 <form
                     className="flex flex-col gap-5"
                     onSubmit={handleSignup}
                 >
 
-                    {/* Name */}
+                    
                     <div className="flex flex-col">
 
                         <label className="text-white mb-2">
@@ -87,7 +131,7 @@ export default function Signup() {
 
                     </div>
 
-                  
+                    
                     <div className="flex flex-col">
 
                         <label className="text-white mb-2">
@@ -104,7 +148,7 @@ export default function Signup() {
 
                     </div>
 
-                    
+                   
                     <div className="flex flex-col">
 
                         <label className="text-white mb-2">
@@ -121,7 +165,7 @@ export default function Signup() {
 
                     </div>
 
-                  
+                   
                     <div className="flex flex-col">
 
                         <label className="text-white mb-2">
@@ -138,7 +182,7 @@ export default function Signup() {
 
                     </div>
 
-                   
+                    
                     <button
                         type="submit"
                         className="bg-blue-600 hover:bg-blue-700 transition-all duration-300 text-white py-3 rounded-lg font-semibold mt-2"
@@ -148,7 +192,7 @@ export default function Signup() {
 
                 </form>
 
-               
+                
                 <p className="text-center text-gray-200 mt-6">
 
                     Already have an account?{" "}
