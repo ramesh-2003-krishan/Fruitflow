@@ -120,10 +120,19 @@ export async function getProductByID(req, res){
 
 export async function searchProducts(req, res){
     try{
-        const { name} = req.query;
+        const { name, minPrice, maxPrice, isAvalaible } = req.query;
         const query = {};
         if(name){
             query.name = { $regex: name, $options: "i" };
+        }
+       
+        if(minPrice || maxPrice){
+            query.price = {};
+            if(minPrice) query.price.$gte = Number(minPrice);
+            if(maxPrice) query.price.$lte = Number(maxPrice);
+        }
+        if(isAvalaible !== undefined){
+            query.isAvalaible = isAvalaible === "true";
         }
         const products = await Product.find(query);
         res.status(200).json(products);
