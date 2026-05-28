@@ -51,7 +51,7 @@ export default function Signup() {
             <div className="absolute inset-0 bg-black/50"></div>
 
             
-            <div className="relative z-10 w-[500px] h-[650px] bg-white/10 backdrop-blur-lg p-8 rounded-2xl shadow-2xl border border-white/20 flex flex-col justify-center items-center text-center">
+            <div className="relative z-10 w-125 h-162.5 bg-white/10 backdrop-blur-lg p-8 rounded-2xl shadow-2xl border border-white/20 flex flex-col justify-center items-center text-center">
 
                 
                 <img
@@ -93,7 +93,7 @@ export default function Signup() {
             </div>
 
            
-            <div className="relative z-10 w-[500px] h-[650px] bg-white/10 backdrop-blur-lg p-8 rounded-2xl shadow-2xl border border-white/20 flex flex-col justify-center">
+            <div className="relative z-10 w-125 h-162.5 bg-white/10 backdrop-blur-lg p-8 rounded-2xl shadow-2xl border border-white/20 flex flex-col justify-center">
 
                
                 <div className="text-center mb-8">

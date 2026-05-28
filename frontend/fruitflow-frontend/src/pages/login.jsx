@@ -1,11 +1,13 @@
 import { useState } from "react"
 import axios from "axios"
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom"
 
 export default function Login(){
 
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
+    const navigate = useNavigate()
 
     async function handleLogin(e){
      e.preventDefault();
@@ -26,8 +28,12 @@ export default function Login(){
         
         localStorage.setItem("token", response.data.token);
         
+       if(response.data.role === "admin"){
+        navigate("/admin") 
+       }else{
+         navigate("/")
+       }
        
-        window.location.href = "/";
         
         console.log(response);
     }catch(error){
