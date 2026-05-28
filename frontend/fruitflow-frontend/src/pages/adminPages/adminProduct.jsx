@@ -22,12 +22,12 @@ export default function AdminProductPage() {
         })
     }, [])
 
-    // Filter products by search
+    
     const filtered = products.filter(p =>
         p.name.toLowerCase().includes(search.toLowerCase())
     )
 
-    // Stock status helper
+    
     const getStockStatus = (stock) => {
         if (stock === 0) return { label: "Out of stock", style: "bg-red-100 text-red-700" }
         if (stock < 10) return { label: "Low stock", style: "bg-amber-100 text-amber-700" }
@@ -49,7 +49,7 @@ export default function AdminProductPage() {
     return (
         <div className="p-6 bg-gray-50 min-h-full">
 
-            {/* Header */}
+           
             <div className="flex justify-between items-center mb-6">
                 <div>
                     <h1 className="text-2xl font-medium text-gray-800">🌿 Products</h1>
@@ -60,7 +60,7 @@ export default function AdminProductPage() {
                 </button>
             </div>
 
-            {/* Stats */}
+            
             <div className="grid grid-cols-4 gap-3 mb-6">
                 <div className="bg-white rounded-lg p-4 border border-gray-100">
                     <p className="text-xs text-gray-500 mb-1">Total products</p>
@@ -84,7 +84,7 @@ export default function AdminProductPage() {
                 </div>
             </div>
 
-            {/* Search */}
+           
             <div className="flex gap-3 mb-4">
                 <input
                     type="text"
@@ -95,7 +95,7 @@ export default function AdminProductPage() {
                 />
             </div>
 
-            {/* Table */}
+            
             <div className="bg-white rounded-xl border border-gray-100 overflow-hidden">
                 <table className="w-full">
                     <thead className="bg-green-50">
