@@ -1,5 +1,6 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
+import AddProductModal from "../../../utils/mediaUpload.jsx"
 
 export default function AdminProductPage() {
 
@@ -7,6 +8,7 @@ export default function AdminProductPage() {
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
     const [search, setSearch] = useState("")
+    const [showModel, setShowModel] = useState(false)
 
     useEffect(() => {
         axios.get("http://localhost:3000/products", {
@@ -55,9 +57,20 @@ export default function AdminProductPage() {
                     <h1 className="text-2xl font-medium text-gray-800">🌿 Products</h1>
                     <p className="text-sm text-gray-500 mt-1">Manage your fruit inventory</p>
                 </div>
-                <button className="flex items-center gap-2 bg-green-700 hover:bg-green-800 text-green-50 px-4 py-2 rounded-lg text-sm font-medium">
+                <button 
+                onClick={()=>setShowModel(true)}
+                className="flex items-center gap-2 bg-green-700 hover:bg-green-800 text-green-50 px-4 py-2 rounded-lg text-sm font-medium">
                     + Add product
                 </button>
+
+                {showModel && (
+                    <AddProductModal
+                    onClose={()=>setShowModel(false)}
+                    onProductAdded={()=>{
+                        setShowModel(false)
+                    }}
+                    />
+                )}
             </div>
 
             
