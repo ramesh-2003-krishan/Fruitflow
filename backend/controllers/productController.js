@@ -21,7 +21,7 @@ export async function getProducts(req, res) {
 
 export function saveProduct(req,res){
     
-        if(isAdmin(req)){
+        if(!isAdmin(req)){
             res.status(403).json({
                 "message" : "only admin can create products"
             });
