@@ -2,6 +2,7 @@ import axios from "axios"
 import { useEffect, useState } from "react"
 import AddProductModal from "../../../utils/mediaUpload.jsx"
 import EditProductModal from "../../../utils/mediaEdit.jsx"
+import DeleteProductModal from "../../../utils/mediaDelete.jsx"
 
 export default function AdminProductPage() {
 
@@ -11,6 +12,7 @@ export default function AdminProductPage() {
     const [search, setSearch] = useState("")
     const [showModel, setShowModel] = useState(false)
     const [editingProduct, setEditingProduct] = useState(null)
+    const [deletingProduct, setDeletingProduct] = useState(null)
 
     useEffect(() => {
         axios.get("http://localhost:3000/products", {
@@ -167,7 +169,9 @@ export default function AdminProductPage() {
                                                 Edit
                                             </button>
                                             
-                                            <button className="text-xs bg-red-50 text-red-600 hover:bg-red-100 px-3 py-1.5 rounded-lg">
+                                            <button
+                                            onClick={()=>setDeletingProduct(product)} 
+                                            className="text-xs bg-red-50 text-red-600 hover:bg-red-100 px-3 py-1.5 rounded-lg">
                                                 Delete
                                             </button>
                                         </div>
@@ -184,6 +188,14 @@ export default function AdminProductPage() {
                     onClose={() => setEditingProduct(null)}
                     onProductUpdated={handleProductUpdated}
                 />
+            )}
+
+            {deletingProduct && (
+               <DeleteProductModal
+               product={deletingProduct}
+               onClose={()=>setDeletingProduct(null)}
+               onProductDeleted={handleProductUpdated}
+               />
             )}
         </div>
     )
