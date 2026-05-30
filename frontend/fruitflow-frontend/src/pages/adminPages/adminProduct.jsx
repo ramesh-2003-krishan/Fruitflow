@@ -1,6 +1,7 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
 import AddProductModal from "../../../utils/mediaUpload.jsx"
+import EditProductModal from "../../../utils/mediaEdit.jsx"
 
 export default function AdminProductPage() {
 
@@ -9,6 +10,7 @@ export default function AdminProductPage() {
     const [error, setError] = useState(null)
     const [search, setSearch] = useState("")
     const [showModel, setShowModel] = useState(false)
+    const [editingProduct, setEditingProduct] = useState(null)
 
     useEffect(() => {
         axios.get("http://localhost:3000/products", {
@@ -23,6 +25,16 @@ export default function AdminProductPage() {
             setLoading(false)
         })
     }, [])
+
+    function handleProductUpdated() {
+    axios.get("http://localhost:3000/products", {
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`
+        }
+    }).then((res) => {
+        setProducts(res.data)
+    })
+}
 
     
     const filtered = products.filter(p =>
@@ -59,7 +71,7 @@ export default function AdminProductPage() {
                 </div>
                 <button 
                 onClick={()=>setShowModel(true)}
-                className="flex items-center gap-2 bg-green-700 hover:bg-green-800 text-green-50 px-4 py-2 rounded-lg text-sm font-medium">
+                className="flex items-center gap-2 bg-green-700 hover:bg-green-800 text-green-50 px-4 py-2 rounded-lg text-sm font-medium cursor-pointer">
                     + Add product
                 </button>
 
@@ -148,9 +160,13 @@ export default function AdminProductPage() {
                                     </td>
                                     <td className="px-4 py-3">
                                         <div className="flex gap-2">
-                                            <button className="text-xs bg-green-50 text-green-700 hover:bg-green-100 px-3 py-1.5 rounded-lg">
+                                            <button
+                                            onClick={()=>setEditingProduct(product)} 
+                                            className="text-xs bg-green-50 text-green-700 hover:bg-green-100 px-3 py-1.5 rounded-lg cursor-pointer "
+                                            >
                                                 Edit
                                             </button>
+                                            
                                             <button className="text-xs bg-red-50 text-red-600 hover:bg-red-100 px-3 py-1.5 rounded-lg">
                                                 Delete
                                             </button>
@@ -162,6 +178,13 @@ export default function AdminProductPage() {
                     </tbody>
                 </table>
             </div>
+            {editingProduct && (
+                <EditProductModal
+                    product={editingProduct}
+                    onClose={() => setEditingProduct(null)}
+                    onProductUpdated={handleProductUpdated}
+                />
+            )}
         </div>
     )
 }

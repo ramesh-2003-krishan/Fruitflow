@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { supabase } from "../config/supabase.jsx"
 import axios from "axios"
+import { toast } from "react-hot-toast"
  
 export default function AddProductModal({ onClose, onProductAdded }) {
 
@@ -76,6 +77,8 @@ export default function AddProductModal({ onClose, onProductAdded }) {
                     Authorization: `Bearer ${localStorage.getItem("token")}`
                 }
             })
+
+            toast.success("succesfully added🎉")
 
             onProductAdded()  
             onClose()         
