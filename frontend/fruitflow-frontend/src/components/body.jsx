@@ -23,15 +23,17 @@ export default function Body() {
                 <div className="max-w-7xl mx-auto px-4">
                     <div className="grid md:grid-cols-2 gap-12 items-center">
                         <div>
-                            <h1 className="text-5xl font-bold text-gray-900 mb-4">
-                                🌿 Fresh Fruits, Delivered Daily
+                            <h1 className="text-5xl md:text-7xl font-black  font-bold text-gray-900 mb-8 leading-none ">
+                                 Fresh Fruits,<br />
+                                 <span className="text-5xl md:text-7xl -mt-4">Nearest place,</span><br />
+                                 Delivered Daily
                             </h1>
                             <p className="text-xl text-gray-600 mb-6">
                                 Experience the freshness of nature with our premium selection of organic fruits. Farm to table in 24 hours.
                             </p>
                             <div className="flex gap-4">
                                 <Link
-                                    to="/"
+                                    to="/product"
                                     className="bg-green-700 hover:bg-green-800 text-white px-6 py-3 rounded-lg font-medium"
                                 >
                                     Shop Now
@@ -45,7 +47,43 @@ export default function Body() {
                             </div>
                         </div>
                         <div className="text-center">
-                            <div className="text-9xl">🍎🍌🍊</div>
+                            <div className="relative h-96 flex items-center justify-center">
+   
+                                   <div className="absolute transform -rotate-12 translate-x-32 translate-y-8 shadow-lg">
+                                      <img
+                                           src="/pictures/market.jpg"
+                                           alt="Market"
+                                           className="w-48 h-56 object-cover rounded-lg border-4 border-green-200 hover:shadow-2xl hover:scale-110 hover:border-green-200 transition duration-300"
+                                          />
+                                    </div>
+
+   
+                                     <div className="absolute transform rotate-6 -translate-x-12 -translate-y-12 shadow-lg">
+                                          <img
+                                             src="/pictures/apples.jpg"
+                                             alt="Apples"
+                                             className="w-48 h-56 object-cover rounded-lg border-4 border-green-200 hover:shadow-2xl hover:scale-110 hover:border-green-200 transition duration-300"
+                                          />
+                                    </div>
+
+    
+                                    <div className="absolute transform -rotate-6 -translate-x-32 translate-y-20 shadow-lg">
+                                            <img
+                                              src="/pictures/berries.jpg"
+                                              alt="Berries"
+                                              className="w-48 h-56 object-cover rounded-lg border-4 border-green-200 hover:shadow-2xl hover:scale-110 hover:border-green-200 transition duration-300"
+                                           />
+                                   </div>
+
+    
+                                   <div className="absolute transform rotate-12 translate-x-16 translate-y-32 shadow-lg">
+                                           <img
+                                              src="/pictures/eat.jpg"
+                                              alt="Child"
+                                              className="w-48 h-56 object-cover rounded-lg border-4 border-green-200 hover:shadow-2xl hover:scale-110 hover:border-green-200 transition duration-300"
+                                            />
+                                    </div>
+                             </div>
                         </div>
                     </div>
                 </div>
