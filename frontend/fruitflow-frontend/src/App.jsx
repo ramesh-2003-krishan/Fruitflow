@@ -10,6 +10,7 @@ import Product from './pages/product'
 import About from './pages/about'
 import toast, {Toaster} from 'react-hot-toast'
 import Contact from './pages/contact'
+import ProductDetail from './pages/productDetail'
 
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
       <Route path='/signup' element={<Signup/>}/>
       <Route path='/admin/*' element={<Admin/>}/>
       <Route path='/product' element={<Product/>}/>
+      <Route path='/product/:productID' element={<ProductDetail/>}/>
       <Route path='/about' element={<About/>}/>
       <Route path='/contact' element={<Contact/>}/>
       <Route path="/*" element={<h1>404 Not Found</h1>} />

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import Footer from "../components/footer.jsx";
 import Header from "../components/header.jsx";
 import ProductCard from "../components/productCard";
@@ -185,6 +186,11 @@ export default function Product(){
                         {filtered.length > 0 ? (
                             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                                 {filtered.map((product) => (
+                                    
+                            <Link 
+                            key={product.productID}
+                            to={`/product/${product.productID}`} 
+                            >
                                     <div key={product.productID} className="bg-white rounded-lg shadow-sm hover:shadow-lg border border-gray-100 overflow-hidden transition">
                                         <div className="h-48 bg-gray-100 overflow-hidden">
                                             <img
@@ -221,6 +227,7 @@ export default function Product(){
                                             </button>
                                         </div>
                                     </div>
+                                   </Link>
                                 ))}
                             </div>
                         ) : (
