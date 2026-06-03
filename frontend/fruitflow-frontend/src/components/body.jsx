@@ -139,6 +139,10 @@ export default function Body() {
                     ) : (
                         <div className="grid md:grid-cols-3 gap-8">
                             {products.map((product) => (
+                                <Link 
+                                  key={product.productID}
+                                  to={`/product/${product.productID}`} 
+                                >
                                 <div key={product.productID} className="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition border border-gray-100">
                                     <div className="h-48 bg-gray-100 overflow-hidden">
                                         <img
@@ -165,6 +169,7 @@ export default function Body() {
                                         </div>
                                     </div>
                                 </div>
+                                </Link>
                             ))}
                         </div>
                     )}
