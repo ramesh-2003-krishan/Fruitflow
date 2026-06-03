@@ -39,7 +39,7 @@ export default function Body() {
                                     Shop Now
                                 </Link>
                                 <Link
-                                    to="/"
+                                    to="/about"
                                     className="border-2 border-green-700 text-green-700 hover:bg-green-50 px-6 py-3 rounded-lg font-medium"
                                 >
                                     Learn More
@@ -127,7 +127,7 @@ export default function Body() {
                     <div className="flex justify-between items-center mb-12">
                         <h2 className="text-3xl font-bold text-gray-900">Featured Products</h2>
                         <Link
-                            to="/"
+                            to="/product"
                             className="text-green-700 hover:text-green-800 font-medium flex items-center gap-2"
                         >
                             View All →
@@ -210,7 +210,7 @@ export default function Body() {
                                 Our mission is to make fresh, organic fruits accessible to everyone while supporting local farming communities.
                             </p>
                             <Link
-                                to="/"
+                                to="/about"
                                 className="text-green-700 hover:text-green-800 font-medium flex items-center gap-2"
                             >
                                 Read Our Story →
