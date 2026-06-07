@@ -12,6 +12,7 @@ import orderRouter from './routes/orderRoute.js';
 import reviewRouter from './routes/reviewRoute.js';
 import paymentRouter from './routes/paymentRoute.js';
 import messageRouter from './routes/messageRoute.js';
+import shopRouter from './routes/shopRoute.js';
 
 
 dotenv.config();
@@ -70,6 +71,7 @@ app.use("/orders", orderRouter);
 app.use("/reviews",reviewRouter);
 app.use("/payments", paymentRouter);
 app.use("/messages", messageRouter);
+app.use("/shops", shopRouter);
 
 
 
