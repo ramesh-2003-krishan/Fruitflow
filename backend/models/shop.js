@@ -19,6 +19,41 @@ const shopSchema = new mongoose.Schema(
         phone:{
             type: String,
             required: true
+        },
+        products:[
+            {
+                productID: {
+                    type: String,
+                    required: true
+                },
+                name: {
+                    type: String,
+                    required: true
+                },
+                altNames:[
+                    {
+                        type: String
+                    },
+                ],
+                quantity:{
+                        type: Number,
+                        required: true
+                }
+          }
+       ],
+        location:{
+            let:{
+                type: Number,
+                required: true
+            },
+            lng:{
+                type: Number,
+                required: true
+            },
+            googleMapUrl:{
+                type: String,
+                required: true
+            }
         }
 
     }
