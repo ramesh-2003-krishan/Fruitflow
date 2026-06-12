@@ -77,4 +77,35 @@ export async function createOrder(req, res) {
     }
 }
     
-    
+export async function updateOrderStatus(req, res) {
+    if (!isAdmin(req)) {
+        return res.status(403).json({
+            message: "only admin can update order status"
+        })
+    }
+
+    try {
+        await Order.updateOne(
+            { orderID: req.params.orderID },
+            { status: req.body.status }
+        )
+        res.json({ message: "Order status updated successfully" })
+    } catch (err) {
+        res.status(500).json({
+            message: "Error updating order status",
+            error: err.message
+        })
+    }
+}    
+
+export async function getOrders(req, res) {
+    try {
+        const orders = await Order.find();
+        res.json(orders);
+    } catch (err) {
+        res.status(500).json({
+            message: "Error fetching orders",
+            error: err.message
+        });
+    }
+}
