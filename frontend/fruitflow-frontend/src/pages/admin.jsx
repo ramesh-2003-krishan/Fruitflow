@@ -17,6 +17,7 @@ export default function Admin(){
                    <Link to="/admin/Orders" className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-[#97C459] hover:bg-[#27500A] hover:text-[#C0DD97] transition-colors"><span>🛒</span>Orders</Link>
                    <Link to="/admin/Users" className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-[#97C459] hover:bg-[#27500A] hover:text-[#C0DD97] transition-colors"><span>👤</span>Users</Link>
                    <Link to="/admin/Reviews" className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-[#97C459] hover:bg-[#27500A] hover:text-[#C0DD97] transition-colors"> <span>⭐</span>Reviews</Link>
+                     <Link to="/admin/Stores" className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-[#97C459] hover:bg-[#27500A] hover:text-[#C0DD97] transition-colors"> <span>🏪</span>Stores</Link>
                 </nav>
                 <div className="p-2 border-t border-[#27500A]">
                     <button className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-[#97C459] hover:bg-[#27500A] hover:text-[#C0DD97] w-full transition-colors">
@@ -31,6 +32,7 @@ export default function Admin(){
                     <Route path='/Orders' element={<h1 className="p-6">Orders</h1>}/>
                     <Route path='/Users' element={<h1 className="p-6">Users</h1>}/>
                     <Route path='/Reviews' element={<h1 className="p-6">Reviews</h1>}/>
+                    <Route path="/Stores" element={<h1 className="p-6">Stores</h1>}/>
 
                 </Routes>
 
