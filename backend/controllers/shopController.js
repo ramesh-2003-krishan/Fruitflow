@@ -23,3 +23,15 @@ export default function createShop(req, res){
         });
     });
 }
+
+export async function getShops(req, res) {
+    try {
+        const shops = await Shop.find();
+        res.status(200).json(shops);
+    } catch (err) {
+        res.status(500).json({
+            message: "Error fetching shops",
+            error: err.message
+        });
+    }
+}
