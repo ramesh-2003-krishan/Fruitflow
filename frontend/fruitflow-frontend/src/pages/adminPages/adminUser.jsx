@@ -32,19 +32,29 @@ export default function AdminUserPage() {
     }
 
     function handleBlockUser(userID, isBlocked) {
-        axios.put(`http://localhost:3000/users/${userID}`, {
-            isBlocked: !isBlocked
-        }, {
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem("token")}`
-            }
-        }).then(() => {
-            toast.success(isBlocked ? "User unblocked" : "User blocked")
-            fetchUsers()
-        }).catch(() => {
-            toast.error("Failed to update user")
-        })
-    }
+
+    const url = isBlocked
+        ? `http://localhost:3000/users/${userID}/unblock`
+        : `http://localhost:3000/users/${userID}/block`
+
+    axios.put(url, {}, {
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`
+        }
+    })
+    .then(() => {
+        toast.success(
+            isBlocked
+                ? "User unblocked successfully"
+                : "User blocked successfully"
+        )
+        fetchUsers()
+    })
+    .catch((err) => {
+        console.log(err)
+        toast.error("Failed to update user")
+    })
+}
 
     function handleRoleChange(userID, newRole) {
         axios.put(`http://localhost:3000/users/${userID}`, {
