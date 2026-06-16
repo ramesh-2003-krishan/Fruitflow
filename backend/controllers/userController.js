@@ -133,3 +133,100 @@ export async function getUsers(req, res) {
         });
     }
 }
+
+export async function deleteUser(req, res) {
+    if (!isAdmin(req)) {
+        return res.status(403).json({
+            message: "Only admin can delete users"
+        });
+    }
+
+    try {
+        const userId = req.params.id;
+
+        const deletedUser = await User.findByIdAndDelete(userId);
+
+        if (!deletedUser) {
+            return res.status(404).json({
+                message: "User not found"
+            });
+        }
+
+        res.status(200).json({
+            message: "User deleted successfully"
+        });
+    } catch (err) {
+        res.status(500).json({
+            message: "Error deleting user",
+            error: err.message
+        });
+    }
+}
+
+export async function blockUser(req, res) {
+    if (!isAdmin(req)) {
+        return res.status(403).json({
+            message: "Only admin can block users"
+        });
+    }
+
+    try {
+        const userId = req.params.id;
+
+        const user = await User.findByIdAndUpdate(
+            userId,
+            { isBlocked: true },
+            { new: true }
+        ).select("-password");
+
+        if (!user) {
+            return res.status(404).json({
+                message: "User not found"
+            });
+        }
+
+        res.status(200).json({
+            message: "User blocked successfully",
+            user
+        });
+    } catch (err) {
+        res.status(500).json({
+            message: "Error blocking user",
+            error: err.message
+        });
+    }
+}
+
+export async function unblockUser(req, res) {
+    if (!isAdmin(req)) {
+        return res.status(403).json({
+            message: "Only admin can unblock users"
+        });
+    }
+
+    try {
+        const userId = req.params.id;
+
+        const user = await User.findByIdAndUpdate(
+            userId,
+            { isBlocked: false },
+            { new: true }
+        ).select("-password");
+
+        if (!user) {
+            return res.status(404).json({
+                message: "User not found"
+            });
+        }
+
+        res.status(200).json({
+            message: "User unblocked successfully",
+            user
+        });
+    } catch (err) {
+        res.status(500).json({
+            message: "Error unblocking user",
+            error: err.message
+        });
+    }
+}
