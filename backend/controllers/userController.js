@@ -230,3 +230,43 @@ export async function unblockUser(req, res) {
         });
     }
 }
+
+export async function makeUserAdmin(req, res) {
+
+    if (!isAdmin(req)) {
+        return res.status(403).json({
+            message: "Only admins can promote users"
+        });
+    }
+
+    try {
+
+        const userId = req.params.id;
+
+        const user = await User.findByIdAndUpdate(
+            userId,
+            { role: "admin" },
+            { new: true }
+        ).select("-password");
+
+        if (!user) {
+            return res.status(404).json({
+                message: "User not found"
+            });
+        }
+
+        res.status(200).json({
+            message: "User promoted to admin successfully",
+            user
+        });
+
+    } catch (err) {
+
+        res.status(500).json({
+            message: "Error promoting user",
+            error: err.message
+        });
+
+    }
+}
+
