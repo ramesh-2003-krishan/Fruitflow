@@ -2,6 +2,7 @@ import { Link, Route, Routes } from "react-router-dom";
 
 import AdminProductPage from "./adminPages/adminProduct.jsx";
 import AdminOrderPage from "./adminPages/adminOrder.jsx";
+import AdminUserPage from "./adminPages/adminUser.jsx";
 
 export default function Admin(){
     return(
@@ -31,7 +32,7 @@ export default function Admin(){
                 <Routes path='/*'>
                     <Route path='/Products' element={<AdminProductPage/>}/>
                     <Route path='/Orders' element={<AdminOrderPage/>}/>
-                    <Route path='/Users' element={<h1 className="p-6">Users</h1>}/>
+                    <Route path='/Users' element={<AdminUserPage/>}/>
                     <Route path='/Reviews' element={<h1 className="p-6">Reviews</h1>}/>
                     <Route path="/Stores" element={<h1 className="p-6">Stores</h1>}/>
 
