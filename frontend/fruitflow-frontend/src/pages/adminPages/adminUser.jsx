@@ -57,19 +57,26 @@ export default function AdminUserPage() {
 }
 
     function handleRoleChange(userID, newRole) {
-        axios.put(`http://localhost:3000/users/${userID}`, {
-            role: newRole
-        }, {
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem("token")}`
-            }
-        }).then(() => {
-            toast.success("User role updated")
-            fetchUsers()
-        }).catch(() => {
-            toast.error("Failed to update role")
-        })
-    }
+
+    const url =
+        newRole === "admin"
+            ? `http://localhost:3000/users/${userID}/make-admin`
+            : `http://localhost:3000/users/${userID}/remove-admin`
+
+    axios.put(url, {}, {
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`
+        }
+    })
+    .then(() => {
+        toast.success("User role updated")
+        fetchUsers()
+    })
+    .catch((err) => {
+        console.log(err)
+        toast.error("Failed to update role")
+    })
+}
 
     function handleDeleteUser(userID) {
         if (window.confirm("Are you sure you want to delete this user?")) {
