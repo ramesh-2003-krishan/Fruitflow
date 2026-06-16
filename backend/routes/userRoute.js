@@ -1,5 +1,5 @@
 import express from 'express';
-import { blockUser, createUser, deleteUser, getUsers, loginUser, searchUser, unblockUser } from '../controllers/userController.js';
+import { blockUser, createUser, deleteUser, getUsers, loginUser, makeUserAdmin, searchUser, unblockUser } from '../controllers/userController.js';
 
 
 const userRouter = express.Router();
@@ -11,5 +11,6 @@ userRouter.get("/",getUsers);
 userRouter.delete("/:id",deleteUser);
 userRouter.put("/:id/block", blockUser);
 userRouter.put("/:id/unblock", unblockUser);
+userRouter.put("/:id/make-admin", makeUserAdmin);
 
 export default userRouter;
