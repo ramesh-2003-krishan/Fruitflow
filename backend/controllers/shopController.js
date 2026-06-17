@@ -35,3 +35,39 @@ export async function getShops(req, res) {
         });
     }
 }
+
+export async function updateShop(req, res) {
+    if (!isAdmin(req)) {
+        return res.status(403).json({
+            message: "only admin can update shops"
+        })
+    }
+
+    try {
+        await Shop.findByIdAndUpdate(req.params.shopID, req.body)
+        res.json({ message: "Shop updated successfully" })
+    } catch (err) {
+        res.status(500).json({
+            message: "Error updating shop",
+            error: err.message
+        })
+    }
+}
+
+export async function deleteShop(req, res) {
+    if (!isAdmin(req)) {
+        return res.status(403).json({
+            message: "only admin can delete shops"
+        })
+    }
+
+    try {
+        await Shop.findByIdAndDelete(req.params.shopID)
+        res.json({ message: "Shop deleted successfully" })
+    } catch (err) {
+        res.status(500).json({
+            message: "Error deleting shop",
+            error: err.message
+        })
+    }
+}

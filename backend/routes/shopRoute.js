@@ -1,11 +1,13 @@
 import express from 'express';
-import createShop, { getShops } from '../controllers/shopController.js';
+import createShop, { deleteShop, getShops, updateShop } from '../controllers/shopController.js';
 
 
 const shopRouter = express.Router();
 
 shopRouter.post("/",createShop);
 shopRouter.get("/",getShops);
+shopRouter.put("/:shopID",updateShop);
+shopRouter.delete("/:shopID",deleteShop);
 
 
 
