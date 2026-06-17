@@ -3,6 +3,7 @@ import { Link, Route, Routes } from "react-router-dom";
 import AdminProductPage from "./adminPages/adminProduct.jsx";
 import AdminOrderPage from "./adminPages/adminOrder.jsx";
 import AdminUserPage from "./adminPages/adminUser.jsx";
+import AdminReviewPage from "./adminPages/adminReviews.jsx";
 
 export default function Admin(){
     return(
@@ -33,7 +34,7 @@ export default function Admin(){
                     <Route path='/Products' element={<AdminProductPage/>}/>
                     <Route path='/Orders' element={<AdminOrderPage/>}/>
                     <Route path='/Users' element={<AdminUserPage/>}/>
-                    <Route path='/Reviews' element={<h1 className="p-6">Reviews</h1>}/>
+                    <Route path='/Reviews' element={<AdminReviewPage/>}/>
                     <Route path="/Stores" element={<h1 className="p-6">Stores</h1>}/>
 
                 </Routes>
