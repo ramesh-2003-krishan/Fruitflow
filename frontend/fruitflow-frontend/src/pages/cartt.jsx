@@ -3,6 +3,7 @@ import { Link } from "react-router-dom"
 import Header from "../components/header.jsx"
 import Footer from "../components/footer.jsx"
 import { getCart, removeFromCart, updateQuantity, getCartTotal, clearCart } from "../utils/cart.js"
+import axios from "axios"
 
 export default function Cartt() {
     const [cartItems, setCartItems] = useState([])
@@ -58,6 +59,31 @@ export default function Cartt() {
         )
     }
 
+    async function handleCheckout() {
+    try {
+        const response = await axios.post(
+            "http://localhost:3000/payments",
+            {
+                order: "TEMP_ORDER",
+                amount: totals.total,
+                method: "cashOnDelivery"
+            },
+            {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("token")}`
+                }
+            }
+        );
+
+        alert("Payment created successfully");
+
+        console.log(response.data);
+
+    } catch (error) {
+        console.error(error);
+    }
+}
+
     return (
         <div>
             <Header />
@@ -106,8 +132,11 @@ export default function Cartt() {
                                 <span>Rs. {totals.total.toFixed(2)}</span>
                             </div>
                         </div>
-                        <button className="w-full bg-green-700 hover:bg-green-800 text-white py-3 rounded-lg font-semibold mb-2">
-                            Proceed to Checkout
+                        <button
+                               onClick={handleCheckout}
+                               className="w-full bg-green-700 hover:bg-green-800 text-white py-3 rounded-lg font-semibold mb-2"
+                          >
+                                 Proceed to Checkout
                         </button>
                         <button onClick={handleClearCart} className="w-full border border-gray-200 text-gray-700 py-2 rounded-lg hover:bg-gray-50">
                             Clear Cart
