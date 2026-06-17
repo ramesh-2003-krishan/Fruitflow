@@ -5,6 +5,7 @@ import Header from "../components/header.jsx";
 import ProductCard from "../components/productCard";
 import Home from "./home";
 import axios from "axios";
+import { addToCart } from "../utils/cart.js";
 
 export default function Product(){
     const [products, setProducts] = useState([])
@@ -68,6 +69,14 @@ export default function Product(){
             </div>
         )
     }
+
+    function handleAddToCart(product) {
+    const success = addToCart(product, 1);
+
+    if (success) {
+        alert(`${product.name} added to cart!`);
+    }
+}
 
     return (
         <div>
@@ -220,10 +229,15 @@ export default function Product(){
                                                 )}
                                             </div>
 
-                                            <button className="w-full bg-green-700 hover:bg-green-800 text-white py-2 rounded-lg font-medium transition disabled:opacity-50"
+                                            <button
+                                                    onClick={(e) => {
+                                                    e.preventDefault(); 
+                                                    handleAddToCart(product);
+                                                }}
+                                                className="w-full bg-green-700 hover:bg-green-800 text-white py-2 rounded-lg font-medium transition disabled:opacity-50"
                                                 disabled={product.stock === 0}
-                                            >
-                                                {product.stock > 0 ? "Add to Cart" : "Out of Stock"}
+                                     >
+                                                  {product.stock > 0 ? "Add to Cart" : "Out of Stock"}
                                             </button>
                                         </div>
                                     </div>
