@@ -35,8 +35,7 @@ export default function Admin(){
                     <Route path='/Orders' element={<AdminOrderPage/>}/>
                     <Route path='/Users' element={<AdminUserPage/>}/>
                     <Route path='/Reviews' element={<AdminReviewPage/>}/>
-                    <Route path="/Stores" element={<h1 className="p-6">Stores</h1>}/>
-
+                    <Route path="/Stores" element={<AdminStorePage/>}/>
                 </Routes>
 
             </div>
