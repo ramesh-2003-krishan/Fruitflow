@@ -4,6 +4,7 @@ import AdminProductPage from "./adminPages/adminProduct.jsx";
 import AdminOrderPage from "./adminPages/adminOrder.jsx";
 import AdminUserPage from "./adminPages/adminUser.jsx";
 import AdminReviewPage from "./adminPages/adminReviews.jsx";
+import AdminStorePage from "./adminPages/adminStores.jsx";
 
 export default function Admin(){
     return(
