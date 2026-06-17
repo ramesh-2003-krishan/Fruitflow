@@ -12,6 +12,7 @@ import toast, {Toaster} from 'react-hot-toast'
 import Contact from './pages/contact'
 import ProductDetail from './pages/productDetail'
 import Shop from './pages/shop'
+import Cartt from './pages/cartt.jsx'
 
 
 function App() {
@@ -32,6 +33,7 @@ function App() {
       <Route path='/shop' element={<Shop/>}/>
       <Route path='/about' element={<About/>}/>
       <Route path='/contact' element={<Contact/>}/>
+      <Route path='/cartt' element={<Cartt/>}/>
       <Route path="/*" element={<h1>404 Not Found</h1>} />
     </Routes>
     </div>

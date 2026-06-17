@@ -1,9 +1,12 @@
 import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import toast from "react-hot-toast"
+import { getCartCount } from "../utils/cart"
+
 
 export default function Header() {
     const [userMenuOpen, setUserMenuOpen] = useState(false)
+    const [cartCount, setCartCount] = useState(0)
     const navigate = useNavigate()
 
     const token = localStorage.getItem("token")
@@ -24,6 +27,10 @@ export default function Header() {
         setUserMenuOpen(false)
         navigate("/")
     }
+
+     window.addEventListener("focus", () => {
+        setCartCount(getCartCount())
+    })
 
     return (
         <header className="bg-white border-b border-gray-100 sticky top-0 z-40">
@@ -54,6 +61,17 @@ export default function Header() {
                     </nav>
 
                     <div className="flex items-center gap-4">
+                         <Link 
+                            to="/cartt"
+                            className="relative p-2 text-gray-600 hover:text-green-700 hover:bg-gray-50 rounded-lg transition"
+                        >
+                            <span className="text-2xl">🛒</span>
+                            {cartCount > 0 && (
+                                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
+                                    {cartCount > 9 ? "9+" : cartCount}
+                                </span>
+                            )}
+                        </Link>
                         {user ? (
                             <div className="relative">
                                 <button
