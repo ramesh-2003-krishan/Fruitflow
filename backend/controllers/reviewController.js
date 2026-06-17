@@ -1,5 +1,8 @@
 import Review from "../models/review.js";
 import Order from "../models/order.js";
+import { isAdmin } from "./userController.js";
+import User from "../models/user.js";
+import Product from "../models/product.js";
 
 
 export async function createReview(req, res) {
@@ -41,6 +44,10 @@ export async function createReview(req, res) {
             comment: req.body.comment
         });
         await review.save();
+
+         await review.populate("user", "name email")
+         await review.populate("product", "name productID")
+
         res.status(201).json({
             "message" : "review created successfully"
         });
@@ -51,4 +58,42 @@ export async function createReview(req, res) {
         });
     }
 
+}
+
+
+export async function getReviews(req, res) {
+    try {
+        const reviews = await Review.find()
+            .populate({
+                path: "user",
+                select: "name email",
+                strictPopulate: false  
+            })
+            .populate({
+                path: "product",
+                select: "name productID",
+                strictPopulate: false  
+            })
+            .sort({ createdAt: -1 })
+        res.json(reviews)
+    } catch (err) {
+        console.log("Error fetching reviews:", err)
+        res.status(500).json({ message: "Error fetching reviews" })
+    }
+}
+
+export async function deleteReview(req, res) {
+    if (!isAdmin(req)) {
+        return res.status(403).json({
+            message: "only admin can delete reviews"
+        })
+    }
+
+    try {
+        await Review.findByIdAndDelete(req.params.reviewID)
+        res.json({ message: "Review deleted" })
+    } catch (err) {
+         console.log("Error deleting review:", err)
+        res.status(500).json({ message: "Error deleting review" })
+    }
 }
