@@ -4,8 +4,10 @@ import Header from "../components/header.jsx"
 import Footer from "../components/footer.jsx"
 import { getCart, removeFromCart, updateQuantity, getCartTotal, clearCart } from "../utils/cart.js"
 import axios from "axios"
+import { useNavigate } from "react-router-dom"
 
 export default function Cartt() {
+    const navigate = useNavigate()
     const [cartItems, setCartItems] = useState([])
     const [totals, setTotals] = useState({ subtotal: 0, savings: 0, total: 0 })
 
@@ -59,29 +61,8 @@ export default function Cartt() {
         )
     }
 
-    async function handleCheckout() {
-    try {
-        const response = await axios.post(
-            "http://localhost:3000/payments",
-            {
-                order: "TEMP_ORDER",
-                amount: totals.total,
-                method: "cashOnDelivery"
-            },
-            {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem("token")}`
-                }
-            }
-        );
-
-        alert("Payment created successfully");
-
-        console.log(response.data);
-
-    } catch (error) {
-        console.error(error);
-    }
+    function handleCheckout() {
+    navigate("/checkout")
 }
 
     return (
