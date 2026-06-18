@@ -18,6 +18,10 @@ export default function Checkout() {
         phone: "",
         address: ""
     })
+    const [orderPlaced, setOrderPlaced] = useState(false)
+    const [placedOrderID, setPlacedOrderID] = useState(null)
+    const [slipFile, setSlipFile] = useState(null)
+    const [uploadingSlip, setUploadingSlip] = useState(false)
 
     useEffect(() => {
         const items = getCart()
@@ -46,41 +50,41 @@ export default function Checkout() {
         setForm({ ...form, [e.target.name]: e.target.value })
     }
 
-    async function handlePlaceOrder() {
+   async function handlePlaceOrder() {
+    if (!form.name || !form.email || !form.phone || !form.address) {
+        toast.error("Please fill in all fields")
+        return
+    }
+
+    setLoading(true)
+
+    try {
        
-        if (!form.name || !form.email || !form.phone || !form.address) {
-            toast.error("Please fill in all fields")
-            return
-        }
-
-        setLoading(true)
-
-        try {
-           
-            const orderRes = await axios.post(
-                "http://localhost:3000/orders",
-                {
-                    name: form.name,
-                    email: form.email,
-                    phone: form.phone,
-                    address: form.address,
-                    products: cartItems.map(item => ({
-                        productID: item.productID,
-                        name: item.name,
-                        price: item.price,
-                        quantity: item.quantity
-                    }))
-                },
-                {
-                    headers: {
-                        Authorization: `Bearer ${localStorage.getItem("token")}`
-                    }
+        const orderRes = await axios.post(
+            "http://localhost:3000/orders",
+            {
+                name: form.name,
+                email: form.email,
+                phone: form.phone,
+                address: form.address,
+                products: cartItems.map(item => ({
+                    productID: item.productID,
+                    name: item.name,
+                    price: item.price,
+                    quantity: item.quantity
+                }))
+            },
+            {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("token")}`
                 }
-            )
+            }
+        )
 
-            const orderID = orderRes.data.order?.orderID || orderRes.data.orderID
+        const orderID = orderRes.data.order?.orderID || orderRes.data.orderID
 
-           
+        if (paymentMethod === "cashOnDelivery") {
+            
             await axios.post(
                 "http://localhost:3000/payments",
                 {
@@ -94,19 +98,60 @@ export default function Checkout() {
                     }
                 }
             )
-
-           
             clearCart()
-            toast.success("Order placed successfully!")
+            toast.success("Order placed successfully! 🎉")
             navigate("/")
 
-        } catch (error) {
-            console.error(error)
-            toast.error(error.response?.data?.message || "Failed to place order")
-        } finally {
-            setLoading(false)
+        } else if (paymentMethod === "bank_transfer") {
+            
+            setPlacedOrderID(orderID)
+            setOrderPlaced(true)   
+            clearCart()
+            toast.success("Order created! Please upload your payment slip.")
         }
+
+    } catch (error) {
+        console.error(error)
+        toast.error(error.response?.data?.message || "Failed to place order")
+    } finally {
+        setLoading(false)
     }
+}
+
+async function handleSlipUpload() {
+    if (!slipFile) {
+        toast.error("Please select your payment slip")
+        return
+    }
+
+    setUploadingSlip(true)
+
+    try {
+       
+        await axios.post(
+            "http://localhost:3000/payments",
+            {
+                order: placedOrderID,
+                amount: totals.total,
+                method: "bank_transfer"
+            },
+            {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("token")}`
+                }
+            }
+        )
+
+        toast.success("Payment slip submitted! We'll verify and confirm your order within 24 hours. ✅")
+        navigate("/")
+
+    } catch (error) {
+        toast.error("Failed to submit slip")
+    } finally {
+        setUploadingSlip(false)
+    }
+}
+
 
     return (
         <div>
@@ -211,6 +256,41 @@ export default function Checkout() {
                                     </div>
                                 ))}
                             </div>
+                            
+                                {paymentMethod === "bank_transfer" && (
+                                      <div className="mt-4 p-5 bg-blue-50 rounded-lg border border-blue-100">
+                                         <p className="text-sm font-bold text-blue-800 mb-4">🏦 Bank Transfer Details</p>
+                                         <div className="space-y-3">
+                                        <div className="flex justify-between items-center py-2 border-b border-blue-100">
+                                            <span className="text-sm text-gray-500">Bank</span>
+                                            <span className="text-sm font-medium text-gray-800">Commercial Bank</span>
+                                         </div>
+                                       <div className="flex justify-between items-center py-2 border-b border-blue-100">
+                                         <span className="text-sm text-gray-500">Account Name</span>
+                                         <span className="text-sm font-medium text-gray-800">FruitFlow Pvt Ltd</span>
+                                        </div>
+                                       <div className="flex justify-between items-center py-2 border-b border-blue-100">
+                                         <span className="text-sm text-gray-500">Account No</span>
+                                         <span className="text-sm font-medium text-gray-800">8012345678</span>
+                                       </div>
+                                       <div className="flex justify-between items-center py-2 border-b border-blue-100">
+                                          <span className="text-sm text-gray-500">Branch</span>
+                                          <span className="text-sm font-medium text-gray-800">Colombo 03</span>
+                                       </div>
+                                       <div className="flex justify-between items-center py-2">
+                                          <span className="text-sm text-gray-500">Amount to Pay</span>
+                                          <span className="text-sm font-bold text-green-700">Rs. {totals.total.toFixed(2)}</span>
+                                        </div>
+                                     </div>
+                                     <div className="mt-4 p-3 bg-amber-50 rounded-lg border border-amber-100">
+                                         <p className="text-xs text-amber-700 font-medium">⚠️ Important:</p>
+                                         <p className="text-xs text-amber-600 mt-1">
+                                                 Please use your Order ID as the payment reference when transferring.
+                                                 Your order will be confirmed within 24 hours after payment verification.
+                                           </p>
+                                        </div>
+                                    </div>
+                                )}
                         </div>
 
                         
@@ -285,6 +365,99 @@ export default function Checkout() {
                     </div>
                 </div>
             </div>
+           
+      {orderPlaced && paymentMethod === "bank_transfer" && (
+          <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+           <div className="bg-white rounded-xl max-w-md w-full p-6">
+
+          
+            <div className="text-center mb-6">
+                <p className="text-4xl mb-2">🏦</p>
+                <h2 className="text-xl font-bold text-gray-800">Upload Payment Slip</h2>
+                <p className="text-sm text-gray-500 mt-1">Order ID: <span className="font-bold text-green-700">{placedOrderID}</span></p>
+            </div>
+
+           
+            <div className="p-4 bg-blue-50 rounded-lg border border-blue-100 mb-6">
+                <p className="text-xs font-bold text-blue-800 mb-2">Transfer to:</p>
+                <div className="space-y-1 text-xs text-gray-700">
+                    <div className="flex justify-between">
+                        <span className="text-gray-500">Bank</span>
+                        <span className="font-medium">Commercial Bank</span>
+                    </div>
+                    <div className="flex justify-between">
+                        <span className="text-gray-500">Account Name</span>
+                        <span className="font-medium">FruitFlow Pvt Ltd</span>
+                    </div>
+                    <div className="flex justify-between">
+                        <span className="text-gray-500">Account No</span>
+                        <span className="font-medium">8012345678</span>
+                    </div>
+                    <div className="flex justify-between">
+                        <span className="text-gray-500">Amount</span>
+                        <span className="font-bold text-green-700">Rs. {totals.total.toFixed(2)}</span>
+                    </div>
+                    <div className="flex justify-between">
+                        <span className="text-gray-500">Reference</span>
+                        <span className="font-bold text-green-700">{placedOrderID}</span>
+                    </div>
+                </div>
+            </div>
+
+           
+            <div className="mb-6">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Upload Payment Slip
+                </label>
+                <div
+                    className="border-2 border-dashed border-gray-200 rounded-lg p-6 text-center cursor-pointer hover:border-green-700 transition"
+                    onClick={() => document.getElementById("slipInput").click()}
+                >
+                    {slipFile ? (
+                        <div>
+                            <p className="text-2xl mb-1">✅</p>
+                            <p className="text-sm font-medium text-green-700">{slipFile.name}</p>
+                            <p className="text-xs text-gray-500 mt-1">Click to change</p>
+                        </div>
+                    ) : (
+                        <div>
+                            <p className="text-3xl mb-2">📎</p>
+                            <p className="text-sm text-gray-500">Click to upload slip</p>
+                            <p className="text-xs text-gray-400 mt-1">JPG, PNG or PDF</p>
+                        </div>
+                    )}
+                </div>
+                <input
+                    id="slipInput"
+                    type="file"
+                    accept="image/*,.pdf"
+                    className="hidden"
+                    onChange={(e) => setSlipFile(e.target.files[0])}
+                />
+            </div>
+
+           
+            <button
+                onClick={handleSlipUpload}
+                disabled={uploadingSlip || !slipFile}
+                className="w-full bg-green-700 hover:bg-green-800 disabled:bg-green-400 text-white py-3 rounded-lg font-semibold mb-3"
+            >
+                {uploadingSlip ? "Submitting..." : "✅ Submit Payment Slip"}
+            </button>
+
+            <button
+                onClick={() => navigate("/")}
+                className="w-full border border-gray-200 text-gray-600 py-2 rounded-lg hover:bg-gray-50 text-sm"
+            >
+                I'll do this later
+            </button>
+
+            <p className="text-xs text-center text-gray-400 mt-3">
+                Your order is saved. You can submit the slip anytime.
+            </p>
+        </div>
+    </div>
+)}
 
             <Footer />
         </div>
