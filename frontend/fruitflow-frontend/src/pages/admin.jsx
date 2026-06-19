@@ -5,6 +5,7 @@ import AdminOrderPage from "./adminPages/adminOrder.jsx";
 import AdminUserPage from "./adminPages/adminUser.jsx";
 import AdminReviewPage from "./adminPages/adminReviews.jsx";
 import AdminStorePage from "./adminPages/adminStores.jsx";
+import Home from "./home.jsx";
 
 export default function Admin(){
     return(
@@ -27,6 +28,11 @@ export default function Admin(){
                     <button className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-[#97C459] hover:bg-[#27500A] hover:text-[#C0DD97] w-full transition-colors">
                         🚪 Logout
                     </button>
+                </div>
+                <div className="p-2 border-t border-[#27500A]">
+                    <Link to="/home" className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-[#97C459] hover:bg-[#27500A] hover:text-[#C0DD97] w-full transition-colors">
+                        🏠 Back to Store
+                    </Link>
                 </div>
                 
             </div>
