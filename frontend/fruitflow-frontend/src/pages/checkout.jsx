@@ -6,6 +6,7 @@ import { getCart, getCartTotal, clearCart } from "../utils/cart.js"
 import axios from "axios"
 import toast from "react-hot-toast"
 import { generateReceipt } from "../utils/receipt.js"
+import Home from "./home.jsx"
 
 export default function Checkout() {
     const navigate = useNavigate()
@@ -107,7 +108,7 @@ export default function Checkout() {
             )
             clearCart()
             toast.success("Order placed successfully! 🎉")
-            navigate("/")
+            navigate("/home")
 
         } else if (paymentMethod === "bank_transfer") {
             
@@ -155,7 +156,7 @@ async function handleSlipUpload() {
         )
 
         toast.success("Payment slip submitted! We'll verify and confirm your order within 24 hours. ✅")
-        navigate("/")
+        navigate("/home")
 
     } catch (error) {
         toast.error("Failed to submit slip")
@@ -212,7 +213,7 @@ async function handleOnlinePayment() {
 
         clearCart()
         toast.success("Payment successful! Order placed! 🎉")
-        navigate("/")
+        navigate("/home")
 
     } catch (error) {
         toast.error("Payment failed. Please try again.")
@@ -435,6 +436,7 @@ function formatExpiry(value) {
                             <button
                                 onClick={handlePlaceOrder}
                                 disabled={loading}
+
                                 className="w-full bg-green-700 hover:bg-green-800 disabled:bg-green-400 text-white py-3 rounded-lg font-semibold transition"
                             >
                                 {loading ? "Placing Order..." : "✅ Place Order"}
