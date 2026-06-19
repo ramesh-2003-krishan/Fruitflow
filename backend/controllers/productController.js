@@ -98,7 +98,7 @@ export async function getProductByID(req, res){
             });
             return;
         }
-        if(Product.isAvalaible){
+        if(product.isAvalaible){
             res.json(product);
         }else{
             if(!isAdmin(req)){

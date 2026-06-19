@@ -48,17 +48,32 @@ export async function updateShop(req, res) {
     if (!isAdmin(req)) {
         return res.status(403).json({
             message: "only admin can update shops"
-        })
+        });
     }
 
     try {
-        await Shop.findByIdAndUpdate(req.params.shopID, req.body)
-        res.json({ message: "Shop updated successfully" })
+        const shop = await Shop.findOneAndUpdate(
+            { shopID: req.params.shopID },   // correct: using shopID field
+            req.body,
+            { new: true } // returns updated document
+        );
+
+        if (!shop) {
+            return res.status(404).json({
+                message: "Shop not found"
+            });
+        }
+
+        res.json({
+            message: "Shop updated successfully",
+            shop
+        });
+
     } catch (err) {
         res.status(500).json({
             message: "Error updating shop",
             error: err.message
-        })
+        });
     }
 }
 
