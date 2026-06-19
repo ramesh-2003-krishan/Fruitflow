@@ -1,27 +1,35 @@
 import Shop from "../models/shop.js";
 import { isAdmin } from "./userController.js";
 
-export default function createShop(req, res){
-    if(!isAdmin(req)){
-        res.status(401).json(
-            {
-                "message": "only admins can add shops"
-            }
-        );
+export default async function createShop(req, res) {
+
+    if (!isAdmin(req)) {
+        return res.status(401).json({
+            message: "only admins can add shops"
+        });
     }
-    
-    const shop = new Shop(
-        req.body
-    );
-    shop.save().then(()=>{
+
+    try {
+        const count = await Shop.countDocuments();
+
+        const shop = new Shop({
+            ...req.body,
+            shopID: `SHOP${String(count + 1).padStart(3, "0")}`
+        });
+
+        await shop.save();
+
         res.status(200).json({
-            "message":"successfully added shop"
+            message: "successfully added shop"
         });
-    }).catch((err)=>{
-        res.status(401).json({
-            "message" : "error creating shop", error:err
+
+    } catch (err) {
+        console.log(err);
+
+        res.status(500).json({
+            message: err.message
         });
-    });
+    }
 }
 
 export async function getShops(req, res) {

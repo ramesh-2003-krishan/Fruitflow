@@ -42,11 +42,11 @@ const shopSchema = new mongoose.Schema(
           }
        ],
         location:{
-            let:{
+            lng:{
                 type: Number,
                 required: true
             },
-            lng:{
+            lat:{
                 type: Number,
                 required: true
             },
