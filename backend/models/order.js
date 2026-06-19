@@ -38,6 +38,10 @@ const orderSchema = new mongoose.Schema(
                     type: String,
                     required: true
                 },
+                price: {
+                    type: Number,
+                    required: true
+                },
                 altNames:[
                     {
                         type: String

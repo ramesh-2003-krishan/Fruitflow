@@ -46,6 +46,7 @@ export async function createOrder(req, res) {
                
                         productID: item.productID,
                         name: item.name,
+                        price: item.price,
                         altNames: item.altNames,
                         quantity: orderInfo.products[i].quantity
                }
