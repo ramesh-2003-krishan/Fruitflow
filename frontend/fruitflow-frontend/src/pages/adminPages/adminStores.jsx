@@ -65,7 +65,6 @@ export default function AdminStorePage() {
     return (
         <div className="p-6 bg-gray-50 min-h-full">
 
-          
             <div className="flex justify-between items-center mb-6">
                 <div>
                     <h1 className="text-2xl font-medium text-gray-800">🏪 Stores</h1>
@@ -79,7 +78,6 @@ export default function AdminStorePage() {
                 </button>
             </div>
 
-          
             <div className="grid grid-cols-4 gap-3 mb-6">
                 <div className="bg-white rounded-lg p-4 border border-gray-100">
                     <p className="text-xs text-gray-500 mb-1">Total stores</p>
@@ -105,7 +103,6 @@ export default function AdminStorePage() {
                 </div>
             </div>
 
-            
             <div className="flex gap-3 mb-4">
                 <input
                     type="text"
@@ -116,7 +113,6 @@ export default function AdminStorePage() {
                 />
             </div>
 
-          
             <div className="bg-white rounded-xl border border-gray-100 overflow-hidden">
                 <table className="w-full">
                     <thead className="bg-green-50">
@@ -201,12 +197,10 @@ export default function AdminStorePage() {
                 )}
             </div>
 
-            
             {viewingStore && (
                 <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
                     <div className="bg-white rounded-xl max-w-lg w-full max-h-[90vh] overflow-y-auto">
 
-                        
                         <div className="flex justify-between items-center p-6 border-b border-gray-100">
                             <h2 className="text-lg font-medium text-gray-800">Store Details</h2>
                             <button
@@ -218,14 +212,12 @@ export default function AdminStorePage() {
                         </div>
 
                         <div className="p-6">
-                          
                             <div className="mb-6 text-center">
                                 <div className="text-5xl mb-3">🏪</div>
                                 <h3 className="text-xl font-bold text-gray-800">{viewingStore.name}</h3>
                                 <p className="text-gray-500 text-sm">{viewingStore.shopID}</p>
                             </div>
 
-                           
                             <div className="mb-6 p-4 bg-gray-50 rounded-lg border border-gray-100">
                                 <p className="text-xs text-gray-500 mb-3">Contact Information</p>
                                 <div className="space-y-2">
@@ -242,7 +234,6 @@ export default function AdminStorePage() {
                                 </div>
                             </div>
 
-                            
                             {viewingStore.products?.length > 0 && (
                                 <div className="mb-6 p-4 bg-gray-50 rounded-lg border border-gray-100">
                                     <p className="text-xs text-gray-500 mb-3">Products ({viewingStore.products.length})</p>
@@ -262,7 +253,6 @@ export default function AdminStorePage() {
                                 </div>
                             )}
 
-                           
                             {viewingStore.location?.lat && (
                                 <div className="mb-6 p-4 bg-gray-50 rounded-lg border border-gray-100">
                                     <p className="text-xs text-gray-500 mb-3">Location</p>
@@ -278,7 +268,6 @@ export default function AdminStorePage() {
                                 </div>
                             )}
 
-                            
                             <div className="flex gap-3">
                                 <button
                                     onClick={() => {
@@ -303,6 +292,170 @@ export default function AdminStorePage() {
                     </div>
                 </div>
             )}
+
+            {showAddModal && (
+                <AddStoreModal
+                    onClose={() => setShowAddModal(false)}
+                    onStoreAdded={() => {
+                        setShowAddModal(false)
+                        fetchStores()
+                    }}
+                />
+            )}
+        </div>
+    )
+}
+
+function AddStoreModal({ onClose, onStoreAdded }) {
+    const [form, setForm] = useState({
+        name: "",
+        address: "",
+        phone: "",
+        lat: "",
+        lng: "",
+        googleMapUrl: ""
+    })
+    const [saving, setSaving] = useState(false)
+
+    function handleChange(e) {
+        setForm({ ...form, [e.target.name]: e.target.value })
+    }
+
+    function handleSubmit() {
+        if (!form.name || !form.address || !form.phone || !form.googleMapUrl) {
+            toast.error("Please fill in all required fields")
+            return
+        }
+
+        setSaving(true)
+
+       const shopData = {
+    name: form.name,
+    address: form.address,
+    phone: form.phone,
+    products: [],
+    location: {
+        lat: parseFloat(form.lat),
+        lng: parseFloat(form.lng),
+        googleMapUrl: form.googleMapUrl
+    }
+};
+
+        axios.post("http://localhost:3000/shops", shopData, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`
+            }
+        }).then(() => {
+            toast.success("Store added successfully")
+            onStoreAdded()
+        }).catch((err) => {
+            toast.error(err.response?.data?.message || "Failed to add store")
+        }).finally(() => {
+            setSaving(false)
+        })
+    }
+
+    return (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+            <div className="bg-white rounded-xl max-w-md w-full max-h-[90vh] overflow-y-auto">
+
+                <div className="flex justify-between items-center p-6 border-b border-gray-100">
+                    <h2 className="text-lg font-medium text-gray-800">Add New Store</h2>
+                    <button
+                        onClick={onClose}
+                        className="text-gray-400 hover:text-gray-600 text-xl"
+                    >
+                        ✕
+                    </button>
+                </div>
+
+                <div className="p-6 space-y-4">
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Store Name *</label>
+                        <input
+                            type="text"
+                            name="name"
+                            value={form.name}
+                            onChange={handleChange}
+                            placeholder="FruitFlow Negombo"
+                            className="w-full px-4 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-green-700"
+                        />
+                    </div>
+
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Address *</label>
+                        <input
+                            type="text"
+                            name="address"
+                            value={form.address}
+                            onChange={handleChange}
+                            placeholder="123 Main Street, Negombo"
+                            className="w-full px-4 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-green-700"
+                        />
+                    </div>
+
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Phone *</label>
+                        <input
+                            type="text"
+                            name="phone"
+                            value={form.phone}
+                            onChange={handleChange}
+                            placeholder="+94 77 123 4567"
+                            className="w-full px-4 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-green-700"
+                        />
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-3">
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">Latitude</label>
+                            <input
+                                type="text"
+                                name="lat"
+                                value={form.lat}
+                                onChange={handleChange}
+                                placeholder="7.2086"
+                                className="w-full px-4 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-green-700"
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">Longitude</label>
+                            <input
+                                type="text"
+                                name="lng"
+                                value={form.lng}
+                                onChange={handleChange}
+                                placeholder="79.8358"
+                                className="w-full px-4 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-green-700"
+                            />
+                        </div>
+                        <div>
+                              <label className="block text-sm font-medium text-gray-700 mb-1">
+                                       Google Maps URL *
+                              </label>
+                              <input
+                                 type="text"
+                                 name="googleMapUrl"
+                                 value={form.googleMapUrl}
+                                 onChange={handleChange}
+                                 placeholder="https://maps.google.com/..."
+                                 className="w-full px-4 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-green-700"
+                                />
+                        </div>
+                    </div>
+                    <p className="text-xs text-gray-400">
+                        💡 Tip: Search your shop on Google Maps, right-click the pin to copy coordinates
+                    </p>
+
+                    <button
+                        onClick={handleSubmit}
+                        disabled={saving}
+                        className="w-full bg-green-700 hover:bg-green-800 disabled:bg-green-400 text-white py-3 rounded-lg font-medium transition"
+                    >
+                        {saving ? "Adding..." : "Add Store"}
+                    </button>
+                </div>
+            </div>
         </div>
     )
 }
