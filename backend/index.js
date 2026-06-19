@@ -24,6 +24,7 @@ applySecurity(app);
 app.use(bodyParser.json());
 
 
+
 app.use((req, res, next) => {
 
     const tokenString = req.header("Authorization");
