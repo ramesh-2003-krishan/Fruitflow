@@ -66,16 +66,28 @@ export async function deleteShop(req, res) {
     if (!isAdmin(req)) {
         return res.status(403).json({
             message: "only admin can delete shops"
-        })
+        });
     }
 
     try {
-        await Shop.findByIdAndDelete(req.params.shopID)
-        res.json({ message: "Shop deleted successfully" })
+        const shop = await Shop.findOneAndDelete({
+            shopID: req.params.shopID
+        });
+
+        if (!shop) {
+            return res.status(404).json({
+                message: "Shop not found"
+            });
+        }
+
+        res.json({
+            message: "Shop deleted successfully"
+        });
+
     } catch (err) {
         res.status(500).json({
             message: "Error deleting shop",
             error: err.message
-        })
+        });
     }
 }
