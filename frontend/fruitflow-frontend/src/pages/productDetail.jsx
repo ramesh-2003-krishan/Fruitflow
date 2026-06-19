@@ -75,7 +75,7 @@ export default function ProductDetail() {
         }).then((res) => {
             const shopsWithProduct = res.data
                 .filter(shop =>
-                    shop.products?.some(p => p.productID === productID && p.quantity > 0)
+                    shop.products?.some(p => p.productID === productID)
                 )
                 .map(shop => {
                     const distance = shop.location?.lat && shop.location?.lng

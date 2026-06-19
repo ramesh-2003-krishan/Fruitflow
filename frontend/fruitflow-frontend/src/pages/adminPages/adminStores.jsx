@@ -457,7 +457,7 @@ function AddStoreModal({ onClose, onStoreAdded }) {
                                     {
                                         productID: product.productID,
                                         name: product.name,
-                                        quantity: 0
+                                        quantity: 10
                                     }
                                 ]
                             });
