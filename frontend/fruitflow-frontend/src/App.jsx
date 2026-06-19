@@ -14,6 +14,7 @@ import ProductDetail from './pages/productDetail'
 import Shop from './pages/shop'
 import Cartt from './pages/cartt.jsx'
 import Checkout from './pages/checkout.jsx'
+import Profile from './pages/profile.jsx'
 
 
 function App() {
@@ -36,6 +37,7 @@ function App() {
       <Route path='/contact' element={<Contact/>}/>
       <Route path='/cartt' element={<Cartt/>}/>
       <Route path='/checkout' element={<Checkout/>}/>
+      <Route path='/profile' element={<Profile/>}/>
       <Route path="/*" element={<h1>404 Not Found</h1>} />
     </Routes>
     </div>
