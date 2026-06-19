@@ -11,6 +11,7 @@ export default function AdminStorePage() {
     const [viewingStore, setViewingStore] = useState(null)
     const [showAddModal, setShowAddModal] = useState(false)
     const [editingStore, setEditingStore] = useState(null)
+    const [editForm, setEditForm] = useState(null)
 
     useEffect(() => {
         fetchStores()
@@ -31,19 +32,24 @@ export default function AdminStorePage() {
     }
 
     function handleDeleteStore(shopID) {
-        if (window.confirm("Are you sure you want to delete this store?")) {
-            axios.delete(`http://localhost:3000/shops/${shopID}`, {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem("token")}`
-                }
-            }).then(() => {
-                toast.success("Store deleted")
-                fetchStores()
-            }).catch(() => {
-                toast.error("Failed to delete store")
-            })
+    console.log("Deleting:", shopID);
+
+    axios.delete(`http://localhost:3000/shops/${shopID}`, {
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`
         }
-    }
+    })
+    .then((res) => {
+        console.log(res.data);
+        toast.success("Store deleted");
+        fetchStores();
+    })
+    .catch((err) => {
+        console.log(err.response?.data);
+        console.log(err.response?.status);
+        toast.error("Failed to delete store");
+    });
+}
 
     const filtered = stores.filter(s =>
         s.name.toLowerCase().includes(search.toLowerCase()) ||
@@ -172,7 +178,7 @@ export default function AdminStorePage() {
                                             View
                                         </button>
                                         <button
-                                            onClick={() => setEditingStore(store)}
+                                            onClick={() => setEditForm(store)}
                                             className="text-xs bg-amber-50 text-amber-700 hover:bg-amber-100 px-3 py-1.5 rounded-lg"
                                         >
                                             Edit
@@ -302,6 +308,17 @@ export default function AdminStorePage() {
                     }}
                 />
             )}
+            {editForm && (
+    <EditStoreModal
+        form={editForm}
+        setForm={setEditForm}
+        onClose={() => setEditForm(null)}
+        onUpdated={() => {
+            setEditForm(null)
+            fetchStores()
+        }}
+    />
+)}
         </div>
     )
 }
