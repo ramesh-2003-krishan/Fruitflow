@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom"
 import toast from "react-hot-toast"
 import { getCartCount } from "../utils/cart"
 import Profile from "../pages/profile"
+import MyOrders from "../pages/myOrder"
 
 
 export default function Header() {
@@ -110,7 +111,7 @@ export default function Header() {
                                             👤 My Profile
                                         </Link>
                                         <Link
-                                            to="/"
+                                            to="/myOrder"
                                             className="block px-4 py-2 text-sm text-gray-700 hover:bg-green-50 hover:text-green-700"
                                             onClick={() => setUserMenuOpen(false)}
                                         >
