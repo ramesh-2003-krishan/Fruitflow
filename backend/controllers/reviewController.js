@@ -77,9 +77,13 @@ export async function getReviews(req, res) {
             .sort({ createdAt: -1 })
         res.json(reviews)
     } catch (err) {
-        console.log("Error fetching reviews:", err)
-        res.status(500).json({ message: "Error fetching reviews" })
-    }
+    console.error(err)
+
+    res.status(500).json({
+        message: err.message,
+        stack: err.stack
+    })
+}
 }
 
 export async function deleteReview(req, res) {
