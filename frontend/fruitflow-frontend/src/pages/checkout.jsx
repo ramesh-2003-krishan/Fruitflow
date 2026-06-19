@@ -5,6 +5,7 @@ import Footer from "../components/footer.jsx"
 import { getCart, getCartTotal, clearCart } from "../utils/cart.js"
 import axios from "axios"
 import toast from "react-hot-toast"
+import { generateReceipt } from "../utils/receipt.js"
 
 export default function Checkout() {
     const navigate = useNavigate()
@@ -196,6 +197,19 @@ async function handleOnlinePayment() {
             }
         )
 
+        generateReceipt({
+            orderID: placedOrderID,
+            name: form.name,
+            email: form.email,
+            phone: form.phone,
+            address: form.address,
+            products: cartItems,
+            paymentMethod: "bank_transfer",
+            totals,
+            date: new Date().toLocaleString()
+        })
+
+
         clearCart()
         toast.success("Payment successful! Order placed! 🎉")
         navigate("/")
@@ -225,6 +239,8 @@ function formatExpiry(value) {
     }
     return v
 }
+
+
 
 
     return (
