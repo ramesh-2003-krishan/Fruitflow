@@ -22,6 +22,13 @@ export default function Checkout() {
     const [placedOrderID, setPlacedOrderID] = useState(null)
     const [slipFile, setSlipFile] = useState(null)
     const [uploadingSlip, setUploadingSlip] = useState(false)
+    const [showOnlinePayment, setShowOnlinePayment] = useState(false)
+    const [cardDetails, setCardDetails] = useState({
+        cardNumber: "",
+        cardName: "",
+        expiry: "",
+        cvv: ""
+    })
 
     useEffect(() => {
         const items = getCart()
@@ -55,7 +62,6 @@ export default function Checkout() {
         toast.error("Please fill in all fields")
         return
     }
-
     setLoading(true)
 
     try {
@@ -108,6 +114,10 @@ export default function Checkout() {
             setOrderPlaced(true)   
             clearCart()
             toast.success("Order created! Please upload your payment slip.")
+        }else if (paymentMethod === "online") {
+            
+            setPlacedOrderID(orderID)
+            setShowOnlinePayment(true)
         }
 
     } catch (error) {
@@ -116,6 +126,7 @@ export default function Checkout() {
     } finally {
         setLoading(false)
     }
+
 }
 
 async function handleSlipUpload() {
@@ -150,6 +161,69 @@ async function handleSlipUpload() {
     } finally {
         setUploadingSlip(false)
     }
+}
+
+async function handleOnlinePayment() {
+    if (!cardDetails.cardNumber || !cardDetails.cardName || !cardDetails.expiry || !cardDetails.cvv) {
+        toast.error("Please fill in all card details")
+        return
+    }
+
+    if (cardDetails.cardNumber.replace(/\s/g, "").length !== 16) {
+        toast.error("Invalid card number")
+        return
+    }
+
+    if (cardDetails.cvv.length < 3) {
+        toast.error("Invalid CVV")
+        return
+    }
+
+    setUploadingSlip(true)
+
+    try {
+        await axios.post(
+            "http://localhost:3000/payments",
+            {
+                order: placedOrderID,
+                amount: totals.total,
+                method: "online"
+            },
+            {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("token")}`
+                }
+            }
+        )
+
+        clearCart()
+        toast.success("Payment successful! Order placed! 🎉")
+        navigate("/")
+
+    } catch (error) {
+        toast.error("Payment failed. Please try again.")
+    } finally {
+        setUploadingSlip(false)
+    }
+}
+
+function formatCardNumber(value) {
+    const v = value.replace(/\s+/g, "").replace(/[^0-9]/gi, "")
+    const matches = v.match(/\d{4,16}/g)
+    const match = (matches && matches[0]) || ""
+    const parts = []
+    for (let i = 0, len = match.length; i < len; i += 4) {
+        parts.push(match.substring(i, i + 4))
+    }
+    return parts.length ? parts.join(" ") : value
+}
+
+function formatExpiry(value) {
+    const v = value.replace(/\s+/g, "").replace(/[^0-9]/gi, "")
+    if (v.length >= 2) {
+        return v.substring(0, 2) + "/" + v.substring(2, 4)
+    }
+    return v
 }
 
 
@@ -454,6 +528,142 @@ async function handleSlipUpload() {
 
             <p className="text-xs text-center text-gray-400 mt-3">
                 Your order is saved. You can submit the slip anytime.
+            </p>
+        </div>
+    </div>
+)}
+
+{showOnlinePayment && (
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+        <div className="bg-white rounded-xl max-w-md w-full p-6">
+
+          
+            <div className="text-center mb-6">
+                <p className="text-4xl mb-2">💳</p>
+                <h2 className="text-xl font-bold text-gray-800">Online Payment</h2>
+                <p className="text-sm text-gray-500 mt-1">
+                    Order ID: <span className="font-bold text-green-700">{placedOrderID}</span>
+                </p>
+            </div>
+
+           
+            <div className="p-4 bg-green-50 rounded-lg border border-green-100 mb-6 text-center">
+                <p className="text-xs text-gray-500 mb-1">Amount to Pay</p>
+                <p className="text-3xl font-bold text-green-700">Rs. {totals.total.toFixed(2)}</p>
+            </div>
+
+          
+            <div className="bg-gradient-to-r from-green-700 to-green-900 rounded-xl p-5 mb-6 text-white">
+                <div className="flex justify-between items-start mb-6">
+                    <p className="text-xs opacity-70">FruitFlow Pay</p>
+                    <p className="text-lg font-bold">💳</p>
+                </div>
+                <p className="text-lg font-mono tracking-widest mb-4">
+                    {cardDetails.cardNumber || "•••• •••• •••• ••••"}
+                </p>
+                <div className="flex justify-between items-end">
+                    <div>
+                        <p className="text-xs opacity-70 mb-1">Card Holder</p>
+                        <p className="text-sm font-medium uppercase">
+                            {cardDetails.cardName || "YOUR NAME"}
+                        </p>
+                    </div>
+                    <div>
+                        <p className="text-xs opacity-70 mb-1">Expires</p>
+                        <p className="text-sm font-medium">
+                            {cardDetails.expiry || "MM/YY"}
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+           
+            <div className="space-y-4 mb-6">
+                <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Card Number</label>
+                    <input
+                        type="text"
+                        maxLength={19}
+                        placeholder="1234 5678 9012 3456"
+                        value={cardDetails.cardNumber}
+                        onChange={(e) => setCardDetails({
+                            ...cardDetails,
+                            cardNumber: formatCardNumber(e.target.value)
+                        })}
+                        className="w-full px-4 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-green-700 font-mono"
+                    />
+                </div>
+
+                <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Card Holder Name</label>
+                    <input
+                        type="text"
+                        placeholder="John Doe"
+                        value={cardDetails.cardName}
+                        onChange={(e) => setCardDetails({
+                            ...cardDetails,
+                            cardName: e.target.value.toUpperCase()
+                        })}
+                        className="w-full px-4 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-green-700 uppercase"
+                    />
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Expiry Date</label>
+                        <input
+                            type="text"
+                            maxLength={5}
+                            placeholder="MM/YY"
+                            value={cardDetails.expiry}
+                            onChange={(e) => setCardDetails({
+                                ...cardDetails,
+                                expiry: formatExpiry(e.target.value)
+                            })}
+                            className="w-full px-4 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-green-700 font-mono"
+                        />
+                    </div>
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">CVV</label>
+                        <input
+                            type="password"
+                            maxLength={4}
+                            placeholder="•••"
+                            value={cardDetails.cvv}
+                            onChange={(e) => setCardDetails({
+                                ...cardDetails,
+                                cvv: e.target.value.replace(/[^0-9]/g, "")
+                            })}
+                            className="w-full px-4 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-green-700 font-mono"
+                        />
+                    </div>
+                </div>
+            </div>
+
+           
+            <div className="flex items-center justify-center gap-4 mb-6">
+                <span className="text-xs text-gray-400 flex items-center gap-1">🔒 SSL Secured</span>
+                <span className="text-xs text-gray-400 flex items-center gap-1">✅ Safe Payment</span>
+            </div>
+
+           
+            <button
+                onClick={handleOnlinePayment}
+                disabled={uploadingSlip}
+                className="w-full bg-green-700 hover:bg-green-800 disabled:bg-green-400 text-white py-3 rounded-lg font-semibold mb-3 transition"
+            >
+                {uploadingSlip ? "Processing..." : `💳 Pay Rs. ${totals.total.toFixed(2)}`}
+            </button>
+
+            <button
+                onClick={() => setShowOnlinePayment(false)}
+                className="w-full border border-gray-200 text-gray-600 py-2 rounded-lg hover:bg-gray-50 text-sm"
+            >
+                ← Cancel Payment
+            </button>
+
+            <p className="text-xs text-center text-gray-400 mt-3">
+                🔒 Your card details are encrypted and secure
             </p>
         </div>
     </div>
