@@ -273,14 +273,17 @@ export default function Contact(){
             </section>
 
            
-            <section className="h-96 bg-gray-300 relative overflow-hidden">
-                <div className="w-full h-full flex items-center justify-center bg-gray-200">
-                    <div className="text-center">
-                        <p className="text-gray-600 text-xl mb-4">📍 Our Location</p>
-                        <p className="text-gray-500">123 Fresh Street, Negombo, SL 11000</p>
-                        <p className="text-gray-400 text-sm mt-2">(Google Map embed here)</p>
-                    </div>
-                </div>
+            <section className="h-96 relative overflow-hidden">
+                   <iframe
+                         src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3960.1234567890!2d79.838!3d7.2086!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zN8KwMTInMzAuOSJOIDc5wrA1MCcxNy4wIkU!5e0!3m2!1sen!2slk!4v1234567890"
+                         width="100%"
+                         height="100%"
+                         style={{ border: 0 }}
+                          allowFullScreen=""
+                        loading="lazy"
+                        referrerPolicy="no-referrer-when-downgrade"
+                        title="FruitFlow Location"
+                    ></iframe>
             </section>
 
             <Footer/>
