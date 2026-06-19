@@ -308,13 +308,26 @@ export default function AdminStorePage() {
 
 function AddStoreModal({ onClose, onStoreAdded }) {
     const [form, setForm] = useState({
-        name: "",
-        address: "",
-        phone: "",
-        lat: "",
-        lng: "",
-        googleMapUrl: ""
-    })
+    name: "",
+    address: "",
+    phone: "",
+    lat: "",
+    lng: "",
+    googleMapUrl: "",
+    products: []
+})
+
+    const [products, setProducts] = useState([]);
+
+    useEffect(() => {
+    axios.get("http://localhost:3000/products")
+        .then((res) => {
+            setProducts(res.data);
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+    }, []);
     const [saving, setSaving] = useState(false)
 
     function handleChange(e) {
@@ -333,14 +346,13 @@ function AddStoreModal({ onClose, onStoreAdded }) {
     name: form.name,
     address: form.address,
     phone: form.phone,
-    products: [],
+    products: form.products,
     location: {
         lat: parseFloat(form.lat),
         lng: parseFloat(form.lng),
         googleMapUrl: form.googleMapUrl
     }
 };
-
         axios.post("http://localhost:3000/shops", shopData, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`
@@ -405,6 +417,49 @@ function AddStoreModal({ onClose, onStoreAdded }) {
                             className="w-full px-4 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-green-700"
                         />
                     </div>
+
+                    <div>
+    <label className="block text-sm font-medium text-gray-700 mb-1">
+        Available Products
+    </label>
+
+    <div className="border border-gray-200 rounded-lg p-3 max-h-40 overflow-y-auto">
+        {products.map((product) => (
+            <label
+                key={product.productID}
+                className="flex items-center gap-2 mb-2"
+            >
+                <input
+                    type="checkbox"
+                    onChange={(e) => {
+                        if (e.target.checked) {
+                            setForm({
+                                ...form,
+                                products: [
+                                    ...form.products,
+                                    {
+                                        productID: product.productID,
+                                        name: product.name,
+                                        quantity: 0
+                                    }
+                                ]
+                            });
+                        } else {
+                            setForm({
+                                ...form,
+                                products: form.products.filter(
+                                    p => p.productID !== product.productID
+                                )
+                            });
+                        }
+                    }}
+                />
+
+                <span>{product.name}</span>
+            </label>
+        ))}
+    </div>
+</div>
 
                     <div className="grid grid-cols-2 gap-3">
                         <div>
