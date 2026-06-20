@@ -7,6 +7,7 @@ import axios from "axios"
 import toast from "react-hot-toast"
 import { generateReceipt } from "../utils/receipt.js"
 import Home from "./home.jsx"
+import { API_BASE_URL } from "../config/api"
 
 export default function Checkout() {
     const navigate = useNavigate()
@@ -69,7 +70,7 @@ export default function Checkout() {
     try {
        
         const orderRes = await axios.post(
-            "http://localhost:3000/orders",
+            `${API_BASE_URL}/orders`,
             {
                 name: form.name,
                 email: form.email,
@@ -94,7 +95,7 @@ export default function Checkout() {
         if (paymentMethod === "cashOnDelivery") {
             
             await axios.post(
-                "http://localhost:3000/payments",
+                `${API_BASE_URL}/payments`,
                 {
                     order: orderID,
                     amount: totals.total,
@@ -142,7 +143,7 @@ async function handleSlipUpload() {
     try {
        
         await axios.post(
-            "http://localhost:3000/payments",
+            `${API_BASE_URL}/payments`,
             {
                 order: placedOrderID,
                 amount: totals.total,
@@ -185,7 +186,7 @@ async function handleOnlinePayment() {
 
     try {
         await axios.post(
-            "http://localhost:3000/payments",
+            `${API_BASE_URL}/payments`,
             {
                 order: placedOrderID,
                 amount: totals.total,

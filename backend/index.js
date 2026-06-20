@@ -66,13 +66,6 @@ mongoose.connect("mongodb://admin:1234@ac-x9fmtkt-shard-00-00.x921pmo.mongodb.ne
 
 
 
-app.use("/products", productRouter);
-app.use("/users", userRouter);
-app.use("/orders", orderRouter);
-app.use("/reviews",reviewRouter);
-app.use("/payments", paymentRouter);
-app.use("/messages", messageRouter);
-app.use("/shops", shopRouter);
 app.use("/api/products", productRouter);
 app.use("/api/users", userRouter);
 app.use("/api/orders", orderRouter);
@@ -81,8 +74,12 @@ app.use("/api/payments", paymentRouter);
 app.use("/api/messages", messageRouter);
 app.use("/api/shops", shopRouter);
 
+const port = process.env.PORT || 3000;
 
+if (!process.env.VERCEL) {
+    app.listen(port, () => {
+        console.log(`Server is running on port ${port}`);
+    });
+}
 
-app.listen(3000, () => {
-    console.log('Server is running on port 3000');
-});
+export default app;

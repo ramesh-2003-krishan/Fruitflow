@@ -1,6 +1,7 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
 import toast from "react-hot-toast"
+import { API_BASE_URL } from "../src/config/api"
 
 export default function EditProductModal({ product, onClose, onProductUpdated }) {
 
@@ -53,7 +54,7 @@ export default function EditProductModal({ product, onClose, onProductUpdated })
 
         try {
             await axios.put(
-                `http://localhost:3000/products/${product.productID}`, 
+                `${API_BASE_URL}/products/${product.productID}`, 
                 {
                     name: formData.name,
                     lablePrice: Number(formData.lablePrice),

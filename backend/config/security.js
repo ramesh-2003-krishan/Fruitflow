@@ -9,7 +9,7 @@ export const limiter = rateLimit({
 });
 
 export const corsOptions = {
-    origin: 'http://localhost:5173',
+    origin: process.env.VERCEL ? true : 'http://localhost:5173',
     credentials: true,
 };
 

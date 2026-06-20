@@ -2,6 +2,7 @@ import { useState } from "react"
 import { supabase } from "../config/supabase.jsx"
 import axios from "axios"
 import { toast } from "react-hot-toast"
+import { API_BASE_URL } from "../src/config/api"
  
 export default function AddProductModal({ onClose, onProductAdded }) {
 
@@ -66,7 +67,7 @@ export default function AddProductModal({ onClose, onProductAdded }) {
             const imageUrl = await uploadImage()
 
          
-            await axios.post("http://localhost:3000/products", {
+            await axios.post(`${API_BASE_URL}/products`, {
                 ...formData,
                 lablePrice: Number(formData.lablePrice),
                 price: Number(formData.price),

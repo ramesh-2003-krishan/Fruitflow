@@ -1,6 +1,7 @@
 import { useState } from "react";
 import toast from "react-hot-toast";
 import axios from "axios"
+import { API_BASE_URL } from "../src/config/api"
 
 
 
@@ -23,7 +24,7 @@ async function handleDelete(){
     try{
 
         await axios.delete(
-             `http://localhost:3000/products/${product.productID}`, 
+             `${API_BASE_URL}/products/${product.productID}`, 
              {
                 headers : {
                     Authorization : `Bearer ${token}`
