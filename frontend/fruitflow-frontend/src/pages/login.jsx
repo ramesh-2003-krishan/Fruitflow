@@ -1,7 +1,7 @@
 import { useState } from "react"
 import axios from "axios"
 import toast from "react-hot-toast";
-import { useNavigate } from "react-router-dom"
+import { useNavigate,Link } from "react-router-dom"
 import Home from "./home.jsx";
 
 export default function Login(){
@@ -133,11 +133,14 @@ export default function Login(){
 
                
                 <p className="text-center text-gray-200 mt-6">
-                    Don’t have an account?{" "}
-                    <span className="text-blue-300 cursor-pointer hover:underline">
-                        Register
-                    </span>
-                </p>
+                     Don't have an account?{" "}
+                  <Link 
+                    to="/signup"
+                    className="text-blue-300 cursor-pointer hover:underline"
+                  >
+                      Register
+                  </Link>
+               </p>
 
             </div>
 

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
+import { useNavigate,Link } from "react-router-dom"
 
 export default function Signup() {
 
@@ -55,7 +56,7 @@ export default function Signup() {
 
                 
                 <img
-                    src="/logo.png"
+                    src="/Mylogo.png"
                     alt="logo"
                     className="w-32 h-32 object-contain mb-6"
                 />
@@ -194,13 +195,13 @@ export default function Signup() {
 
                 
                 <p className="text-center text-gray-200 mt-6">
-
-                    Already have an account?{" "}
-
-                    <span className="text-blue-300 cursor-pointer hover:underline">
-                        Login
-                    </span>
-
+                           Already have an account?{" "}
+                        <Link 
+                          to="/login"
+                          className="text-blue-300 cursor-pointer hover:underline"
+                         >
+                          Login
+                        </Link>
                 </p>
 
             </div>
