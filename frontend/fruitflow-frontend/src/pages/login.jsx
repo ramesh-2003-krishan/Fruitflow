@@ -10,7 +10,6 @@ export default function Login(){
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const navigate = useNavigate()
-    const apiUrl = import.meta.env.VITE_API_URL || API_BASE_URL
 
     async function handleLogin(e){
      e.preventDefault();
@@ -21,7 +20,7 @@ export default function Login(){
     }
 
     try{
-        const response = await axios.post(`${apiUrl}/users/login`, {
+        const response = await axios.post(`${API_BASE_URL}/users/login`, {
             email: email,
             password: password
         },{
