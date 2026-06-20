@@ -1,5 +1,6 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
+import { API_BASE_URL } from "../../config/api"
 import toast from "react-hot-toast"
 
 export default function AdminUserPage() {
@@ -18,7 +19,7 @@ export default function AdminUserPage() {
     }, [])
 
     function fetchUsers() {
-        axios.get("http://localhost:3000/users", {
+        axios.get(`${API_BASE_URL}/users`, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`
             }
@@ -34,8 +35,8 @@ export default function AdminUserPage() {
     function handleBlockUser(userID, isBlocked) {
 
     const url = isBlocked
-        ? `http://localhost:3000/users/${userID}/unblock`
-        : `http://localhost:3000/users/${userID}/block`
+        ? `${API_BASE_URL}/users/${userID}/unblock`
+        : `${API_BASE_URL}/users/${userID}/block`
 
     axios.put(url, {}, {
         headers: {
@@ -60,8 +61,8 @@ export default function AdminUserPage() {
 
     const url =
         newRole === "admin"
-            ? `http://localhost:3000/users/${userID}/make-admin`
-            : `http://localhost:3000/users/${userID}/remove-admin`
+            ? `${API_BASE_URL}/users/${userID}/make-admin`
+            : `${API_BASE_URL}/users/${userID}/remove-admin`
 
     axios.put(url, {}, {
         headers: {
@@ -80,7 +81,7 @@ export default function AdminUserPage() {
 
     function handleDeleteUser(userID) {
         if (window.confirm("Are you sure you want to delete this user?")) {
-            axios.delete(`http://localhost:3000/users/${userID}`, {
+            axios.delete(`${API_BASE_URL}/users/${userID}`, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("token")}`
                 }

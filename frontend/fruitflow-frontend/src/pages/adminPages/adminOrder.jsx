@@ -1,5 +1,6 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
+import { API_BASE_URL } from "../../config/api"
 import toast from "react-hot-toast"
 
 export default function AdminOrderPage() {
@@ -16,7 +17,7 @@ export default function AdminOrderPage() {
     }, [])
 
     function fetchOrders() {
-        axios.get("http://localhost:3000/orders", {
+        axios.get(`${API_BASE_URL}/orders`, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`
             }
@@ -30,7 +31,7 @@ export default function AdminOrderPage() {
     }
 
     function handleStatusChange(orderID, newStatus) {
-        axios.put(`http://localhost:3000/orders/${orderID}`, {
+        axios.put(`${API_BASE_URL}/orders/${orderID}`, {
             status: newStatus
         }, {
             headers: {

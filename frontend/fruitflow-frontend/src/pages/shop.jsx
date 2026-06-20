@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react"
 import axios from "axios"
+import { API_BASE_URL } from "../config/api"
 import Header from "../components/header.jsx"
 import Footer from "../components/footer.jsx"
 
@@ -10,7 +11,7 @@ export default function Shop() {
     const [selectedShop, setSelectedShop] = useState(null)
 
     useEffect(() => {
-        axios.get("http://localhost:3000/shops", {
+        axios.get(`${API_BASE_URL}/shops`, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`
             }

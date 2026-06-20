@@ -1,5 +1,6 @@
 import { useState } from "react"
 import axios from "axios"
+import { API_BASE_URL } from "../config/api"
 import toast from "react-hot-toast";
 import { useNavigate,Link } from "react-router-dom"
 import Home from "./home.jsx";
@@ -19,7 +20,7 @@ export default function Login(){
     }
 
     try{
-        const response = await axios.post("http://localhost:3000/users/login", {
+        const response = await axios.post(`${API_BASE_URL}/users/login`, {
             email: email,
             password: password
         },{

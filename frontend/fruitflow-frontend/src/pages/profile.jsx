@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom"
 import Header from "../components/header.jsx"
 import Footer from "../components/footer.jsx"
 import axios from "axios"
+import { API_BASE_URL } from "../config/api"
 import toast from "react-hot-toast"
 
 export default function Profile() {
@@ -35,7 +36,7 @@ export default function Profile() {
     }, [])
 
     function fetchOrders() {
-        axios.get("http://localhost:3000/orders", {
+        axios.get(`${API_BASE_URL}/orders`, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`
             }

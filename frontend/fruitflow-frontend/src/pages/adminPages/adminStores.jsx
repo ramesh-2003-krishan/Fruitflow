@@ -1,5 +1,6 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
+import { API_BASE_URL } from "../../config/api"
 import toast from "react-hot-toast"
 
 export default function AdminStorePage() {
@@ -18,7 +19,7 @@ export default function AdminStorePage() {
     }, [])
 
     function fetchStores() {
-        axios.get("http://localhost:3000/shops", {
+        axios.get(`${API_BASE_URL}/shops`, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`
             }
@@ -34,7 +35,7 @@ export default function AdminStorePage() {
     function handleDeleteStore(shopID) {
     console.log("Deleting:", shopID);
 
-    axios.delete(`http://localhost:3000/shops/${shopID}`, {
+    axios.delete(`${API_BASE_URL}/shops/${shopID}`, {
         headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`
         }
@@ -337,7 +338,7 @@ function AddStoreModal({ onClose, onStoreAdded }) {
     const [products, setProducts] = useState([]);
 
     useEffect(() => {
-    axios.get("http://localhost:3000/products")
+    axios.get(`${API_BASE_URL}/products`)
         .then((res) => {
             setProducts(res.data);
         })
@@ -370,7 +371,7 @@ function AddStoreModal({ onClose, onStoreAdded }) {
         googleMapUrl: form.googleMapUrl
     }
 };
-        axios.post("http://localhost:3000/shops", shopData, {
+        axios.post(`${API_BASE_URL}/shops`, shopData, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`
             }

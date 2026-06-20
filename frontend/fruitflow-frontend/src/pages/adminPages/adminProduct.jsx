@@ -1,5 +1,6 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
+import { API_BASE_URL } from "../../config/api"
 import AddProductModal from "../../../utils/mediaUpload.jsx"
 import EditProductModal from "../../../utils/mediaEdit.jsx"
 import DeleteProductModal from "../../../utils/mediaDelete.jsx"
@@ -15,7 +16,7 @@ export default function AdminProductPage() {
     const [deletingProduct, setDeletingProduct] = useState(null)
 
     useEffect(() => {
-        axios.get("http://localhost:3000/products", {
+        axios.get(`${API_BASE_URL}/products`, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`
             }
@@ -29,7 +30,7 @@ export default function AdminProductPage() {
     }, [])
 
     function handleProductUpdated() {
-    axios.get("http://localhost:3000/products", {
+    axios.get(`${API_BASE_URL}/products`, {
         headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`
         }

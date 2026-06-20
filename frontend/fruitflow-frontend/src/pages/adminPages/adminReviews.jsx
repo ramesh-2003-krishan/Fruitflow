@@ -1,5 +1,6 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
+import { API_BASE_URL } from "../../config/api"
 import toast from "react-hot-toast"
 
 export default function AdminReviewPage() {
@@ -16,7 +17,7 @@ export default function AdminReviewPage() {
     }, [])
 
     function fetchReviews() {
-        axios.get("http://localhost:3000/reviews", {
+        axios.get(`${API_BASE_URL}/reviews`, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`
             }
@@ -31,7 +32,7 @@ export default function AdminReviewPage() {
 
     function handleDeleteReview(reviewID) {
         if (window.confirm("Are you sure you want to delete this review?")) {
-            axios.delete(`http://localhost:3000/reviews/${reviewID}`, {
+            axios.delete(`${API_BASE_URL}/reviews/${reviewID}`, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("token")}`
                 }

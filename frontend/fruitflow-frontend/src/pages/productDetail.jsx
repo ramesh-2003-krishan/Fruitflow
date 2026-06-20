@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom"
 import { useState, useEffect } from "react"
 import axios from "axios"
+import { API_BASE_URL } from "../config/api"
 import Header from "../components/header"
 import Footer from "../components/footer"
 import { toast } from "react-hot-toast"
@@ -23,7 +24,7 @@ export default function ProductDetail() {
     const [userEmail, setUserEmail] = useState("")
 
     useEffect(() => {
-        axios.get(`http://localhost:3000/products/${productID}`, {
+        axios.get(`${API_BASE_URL}/products/${productID}`, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`
             }
@@ -95,7 +96,7 @@ export default function ProductDetail() {
     }
 
     function loadShopsWithLocation(userLat, userLng) {
-        axios.get("http://localhost:3000/shops", {
+        axios.get(`${API_BASE_URL}/shops`, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`
             }
@@ -129,7 +130,7 @@ export default function ProductDetail() {
     }
 
     function loadShopsWithoutLocation() {
-        axios.get("http://localhost:3000/shops", {
+        axios.get(`${API_BASE_URL}/shops`, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`
             }
@@ -178,7 +179,7 @@ export default function ProductDetail() {
 
 function fetchReviews() {
     setReviewsLoading(true)
-    axios.get("http://localhost:3000/reviews", {
+    axios.get(`${API_BASE_URL}/reviews`, {
         headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`
         }
@@ -199,7 +200,7 @@ function handleSubmitReview() {
 
     setSubmittingReview(true)
 
-    axios.post("http://localhost:3000/reviews", {
+    axios.post(`${API_BASE_URL}/reviews`, {
         product: product._id,
         rating: reviewForm.rating,
         comment: reviewForm.comment

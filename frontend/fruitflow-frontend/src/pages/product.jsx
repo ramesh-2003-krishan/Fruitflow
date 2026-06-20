@@ -5,6 +5,7 @@ import Header from "../components/header.jsx";
 import ProductCard from "../components/productCard";
 import Home from "./home";
 import axios from "axios";
+import { API_BASE_URL } from "../config/api"
 import { addToCart } from "../utils/cart.js";
 
 export default function Product(){
@@ -17,7 +18,7 @@ export default function Product(){
     const [sortBy, setSortBy] = useState("latest")
 
     useEffect(() => {
-        axios.get("http://localhost:3000/products", {
+        axios.get(`${API_BASE_URL}/products`, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`
             }

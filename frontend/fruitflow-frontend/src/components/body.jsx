@@ -1,13 +1,14 @@
 import { Link } from "react-router-dom"
 import { useState, useEffect } from "react"
 import axios from "axios"
+import { API_BASE_URL } from "../config/api"
 
 export default function Body() {
     const [products, setProducts] = useState([])
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
-        axios.get("http://localhost:3000/products").then((res) => {
+        axios.get(`${API_BASE_URL}/products`).then((res) => {
             setProducts(res.data.slice(0, 6))
             setLoading(false)
         }).catch(() => {
