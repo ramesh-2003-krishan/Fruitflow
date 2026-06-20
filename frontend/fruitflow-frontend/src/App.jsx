@@ -16,6 +16,7 @@ import Cartt from './pages/cartt.jsx'
 import Checkout from './pages/checkout.jsx'
 import Profile from './pages/profile.jsx'
 import MyOrders from './pages/myOrder.jsx'
+import Splash from './pages/splash.jsx'
 
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
       <Toaster position='top-center'/>
    
     <Routes path='/'>
+      <Route path='/' element={<Splash/>}/>
       <Route path='/home' element={<Home/>}/>
       <Route path='/login' element={<Login/>}/>
       <Route path='/signup' element={<Signup/>}/>
