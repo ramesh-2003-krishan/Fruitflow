@@ -35,7 +35,7 @@ app.use((req, res, next) => {
 
         console.log(token);
 
-        jwt.verify(token, "ram123", (err, decoded) => {
+        jwt.verify(token, process.env.JWT_SECRET || "dev-secret", (err, decoded) => {
 
             if (decoded != null) {
                 req.user = decoded;
@@ -56,7 +56,8 @@ app.use((req, res, next) => {
 
 
 
-mongoose.connect("mongodb://admin:1234@ac-x9fmtkt-shard-00-00.x921pmo.mongodb.net:27017,ac-x9fmtkt-shard-00-01.x921pmo.mongodb.net:27017,ac-x9fmtkt-shard-00-02.x921pmo.mongodb.net:27017/?ssl=true&replicaSet=atlas-a8z84j-shard-0&authSource=admin&appName=Cluster0").then(() => {
+const mongoUri = process.env.MONGO_URI || 'mongodb://localhost:27017/fruitflow-dev';
+mongoose.connect(mongoUri).then(() => {
     console.log("Connected to MongoDB");
 }).catch((err) => {
     console.error("Error connecting to MongoDB", err);

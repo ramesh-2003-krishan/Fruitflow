@@ -58,7 +58,7 @@ export function loginUser(req,res){
                     role: user.role,
                     image: user.img
                 },
-                 "ram123",
+                 process.env.JWT_SECRET || "dev-secret",
             )
             res.json({ message: "Login successful",
                 token: token,
