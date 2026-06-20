@@ -21,14 +21,18 @@
     },
     {
       "src": "/favicon.ico",
-      "dest": "/favicon.svg"
+      "dest": "/frontend/fruitflow-frontend/dist/favicon.svg"
     },
     {
       "handle": "filesystem"
     },
     {
+      "src": "/",
+      "dest": "/frontend/fruitflow-frontend/dist/index.html"
+    },
+    {
       "src": "/(.*)",
-      "dest": "/index.html"
+      "dest": "/frontend/fruitflow-frontend/dist/index.html"
     }
   ]
 }
