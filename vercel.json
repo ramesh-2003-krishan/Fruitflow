@@ -1,5 +1,27 @@
 {
   "version": 2,
-  "buildCommand": "cd frontend/fruitflow-frontend && npm install --include=dev && npm run build",
-  "outputDirectory": "frontend/fruitflow-frontend/dist"
+  "builds": [
+    {
+      "src": "frontend/fruitflow-frontend/package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "dist",
+        "buildCommand": "npm install --include=dev && npm run build"
+      }
+    },
+    {
+      "src": "backend/index.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "/backend/index.js"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/frontend/fruitflow-frontend/dist/$1"
+    }
+  ]
 }

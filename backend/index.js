@@ -73,6 +73,13 @@ app.use("/reviews",reviewRouter);
 app.use("/payments", paymentRouter);
 app.use("/messages", messageRouter);
 app.use("/shops", shopRouter);
+app.use("/api/products", productRouter);
+app.use("/api/users", userRouter);
+app.use("/api/orders", orderRouter);
+app.use("/api/reviews", reviewRouter);
+app.use("/api/payments", paymentRouter);
+app.use("/api/messages", messageRouter);
+app.use("/api/shops", shopRouter);
 
 
 
