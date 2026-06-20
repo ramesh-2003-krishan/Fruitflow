@@ -20,6 +20,10 @@
       "dest": "/backend/index.js"
     },
     {
+      "src": "/favicon.ico",
+      "dest": "/favicon.svg"
+    },
+    {
       "handle": "filesystem"
     },
     {
