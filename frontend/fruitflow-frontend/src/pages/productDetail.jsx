@@ -3,6 +3,7 @@ import { useState, useEffect } from "react"
 import axios from "axios"
 import Header from "../components/header"
 import Footer from "../components/footer"
+import { toast } from "react-hot-toast"
 
 export default function ProductDetail() {
     const { productID } = useParams()
@@ -218,6 +219,32 @@ function handleSubmitReview() {
     })
 }
 
+function handleAddToCart() {
+    if (!product.stock > 0) {
+        toast.error("Product out of stock")
+        return
+    }
+
+    const cart = JSON.parse(localStorage.getItem("cart")) || []
+    
+    const existingItem = cart.find(item => item.productID === product.productID)
+    
+    if (existingItem) {
+        existingItem.quantity += 1
+    } else {
+        cart.push({
+            productID: product.productID,
+            name: product.name,
+            price: product.price,
+            image: product.images[0],
+            quantity: 1
+        })
+    }
+    
+    localStorage.setItem("cart", JSON.stringify(cart))
+    toast.success(`${product.name} added to cart!`)
+}
+
 
 
     return (
@@ -264,6 +291,7 @@ function handleSubmitReview() {
                         </div>
 
                         <button
+                            onClick={handleAddToCart}
                             disabled={product.stock === 0}
                             className="w-full bg-green-700 hover:bg-green-800 text-white py-3 rounded-lg font-semibold text-lg disabled:opacity-50"
                         >
