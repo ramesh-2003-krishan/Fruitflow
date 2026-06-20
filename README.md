@@ -416,8 +416,8 @@ This project is licensed under the **MIT License** - see LICENSE file for detail
 ## 👨‍💻 Author
 
 **Ramesh Krishan**  
-🔗 GitHub: https://github.com/ramesh-2003-krishan  
-📧 Email: your-email@example.com
+🔗 GitHub: [https://github.com/ramesh-2003-krishan](https://github.com/ramesh-2003-krishan/Fruitflow)  
+📧 Email: sudarshanakrishan123@gmail.com
 
 ---
 
@@ -426,7 +426,7 @@ This project is licensed under the **MIT License** - see LICENSE file for detail
 If you like this project, give it a ⭐ on GitHub!
 
 ### Quick Links
-* 🌐 [Live Demo](https://fruitflow.com) *(coming soon)*
+* 🌐 [Live Demo]([https://fruitflow.com](https://fruitflow-peach.vercel.app/)) *(coming soon)*
 * 📚 [Documentation](./docs)
 * 🐛 [Report Issues](https://github.com/your-username/fruitflow/issues)
 * 💬 [Discussions](https://github.com/your-username/fruitflow/discussions)
