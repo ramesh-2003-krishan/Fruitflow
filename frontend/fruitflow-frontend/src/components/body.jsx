@@ -221,9 +221,15 @@ export default function Body() {
                                 Read Our Story →
                             </Link>
                         </div>
-                        <div className="text-center">
-                            <div className="text-8xl">🌾</div>
+                       <div className="flex items-center justify-center">
+                        <div className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition">
+                             <img 
+                              src="/Mylogo.png" 
+                              alt="FruitFlow" 
+                              className="w-80 h-80 object-contain mx-auto"
+                              />
                         </div>
+                 </div>
                     </div>
                 </div>
             </section>
