@@ -20,7 +20,7 @@ export default function Login(){
     }
 
     try{
-        const response = await axios.post(`${API_BASE_URL}/users/login`, {
+        const response = await axios.post(`${import.meta.env.VITE_API_URL || API_BASE_URL}/users/login`, {
             email: email,
             password: password
         },{
