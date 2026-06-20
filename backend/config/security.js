@@ -8,7 +8,7 @@ export const limiter = rateLimit({
   message: 'Too many requests from this IP, please try again after 15 minutes',
 });
 
-const FRONTEND_URL = (process.env.FRONTEND_URL || 'https://fruitflow-peach.vercel.app').replace(/\/$/, '');
+const FRONTEND_URL = (process.env.FRONTEND_URL || 'http://localhost:5173').replace(/\/$/, '');
 
 export const corsOptions = {
   origin: FRONTEND_URL,

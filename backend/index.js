@@ -3,6 +3,8 @@ import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
 import { applySecurity } from './config/security.js';
 import dotenv from 'dotenv';
+import path from 'path';
+import { fileURLToPath } from 'url';
 import User from './models/user.js';
 import order from './models/order.js';
 import productRouter from './routes/productRoute.js';
@@ -15,7 +17,8 @@ import messageRouter from './routes/messageRoute.js';
 import shopRouter from './routes/shopRoute.js';
 
 
-dotenv.config();
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+dotenv.config({ path: path.join(__dirname, '.env') });
 
 const app = express();
 
