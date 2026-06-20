@@ -426,7 +426,7 @@ This project is licensed under the **MIT License** - see LICENSE file for detail
 If you like this project, give it a ⭐ on GitHub!
 
 ### Quick Links
-* 🌐 [Live Demo]([https://fruitflow.com](https://fruitflow-peach.vercel.app/)) *(coming soon)*
+* 🌐 [Live Demo](https://fruitflow-peach.vercel.app/)
 * 📚 [Documentation](./docs)
 * 🐛 [Report Issues](https://github.com/your-username/fruitflow/issues)
 * 💬 [Discussions](https://github.com/your-username/fruitflow/discussions)
