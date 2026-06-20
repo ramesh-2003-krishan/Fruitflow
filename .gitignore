@@ -1,0 +1,13 @@
+# Node
+node_modules/
+
+# Local env files
+backend/.env
+frontend/fruitflow-frontend/.env
+
+# Build outputs
+frontend/fruitflow-frontend/dist/
+
+# OS files
+.DS_Store
+Thumbs.db
